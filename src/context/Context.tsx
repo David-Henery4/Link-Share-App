@@ -22,6 +22,9 @@ const AppContext = createContext<AppContextType | null>(null);
 
 const AppProvider = (props: PropsWithChildren) => {
   const [currentLinksList, setCurrentLinksList] = useState<LinksInfo[]>([]);
+  const [currentUpload, setCurrentUpload] = useState<string | null>(null);
+  //
+
   //
   const handleAddNewLink = () => {
     setCurrentLinksList((prevValues) => {
