@@ -9,7 +9,6 @@ const ProfileImagePreview = ({ currentUpload }: { currentUpload: string }) => {
         className="absolute top-0 left-0 w-full h-full object-cover object-center"
         src={currentUpload}
         alt=""
-        // onLoad={handleRevoke}
       />
       <div className="absolute top-0 left-0 w-full h-full z-10 bg-black/50"></div>
     </>

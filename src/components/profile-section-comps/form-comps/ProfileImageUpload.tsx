@@ -1,52 +1,15 @@
 "use client";
 import { BaseText } from "@/components/reusable/text";
 import { UploadImageIcon } from "../../icons";
-import { useState } from "react";
-import { ChangeEvent } from "react";
 import ProfileImagePreview from "./image-comp/ProfileImagePreview";
+import useGlobalContext from "@/context/useGlobalContext";
 
 const ProfileImageUpload = () => {
-  // Might move to context, so we can use the preview on the mobile illustration
-  const [currentUpload, setCurrentUpload] = useState<string | null>(null);
-  const [isImageDimensionsInvalid, setIsImageDimensionsInvalid] = useState(false);
-  //
-  const handleSetFileState = (e: FileList) => {
-    if (!e) return;
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      setCurrentUpload(
-        typeof reader.result === "string" ? reader.result : null
-      );
-    };
-
-    reader.onerror = function (event) {
-      if (event.target) {
-        console.log("Error reading file:", event.target.error);
-      }
-      return;
-    };
-
-    reader.readAsDataURL(e[0]);
-  };
-  //
-  const handleCheckImageUploadSize = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.currentTarget?.files; 
-    if (!file) return;
-    //
-    const img = new Image();
-    img.src = window.URL.createObjectURL(file[0]);
-    img.onload = () => {
-      if (img.naturalHeight > 1024 || img.naturalWidth > 1024) {
-        setIsImageDimensionsInvalid(true);
-        window.URL.revokeObjectURL(img.src);
-        return;
-      }
-      setIsImageDimensionsInvalid(false);
-      window.URL.revokeObjectURL(img.src);
-      handleSetFileState(file);
-    }
-  };
+  const {
+    currentUpload,
+    handleCheckImageUploadSize,
+    isImageDimensionsInvalid,
+  } = useGlobalContext();
   //
   return (
     <div className="w-full grid gap-4 p-5 bg-lightGrey rounded-xl smallTablet:gap-10 smallTablet:grid-cols-formColumns lgLaptop:gap-20">
@@ -78,7 +41,12 @@ const ProfileImageUpload = () => {
           />
         </div>
         <div>
-          <BaseText size="small" className={`max-w-[215px] ${isImageDimensionsInvalid && "text-red"}`}>
+          <BaseText
+            size="small"
+            className={`max-w-[215px] ${
+              isImageDimensionsInvalid && "text-red"
+            }`}
+          >
             Image must be below 1024x1024px.
           </BaseText>
           <BaseText size="small" className="max-w-[215px]">

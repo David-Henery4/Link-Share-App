@@ -1,7 +1,7 @@
 "use client";
 import { useState, createContext, Dispatch, SetStateAction } from "react";
 import { LinksInfo } from "@/types/types";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ChangeEvent } from "react";
 import linkOptions from "@/local-data/linkOptions";
 import { v4 as uuidv4 } from "uuid";
 import { ActivePlatformInfo } from "@/types/types";
@@ -16,15 +16,62 @@ interface AppContextType {
     valueName: "platform" | "url",
     newValue: string | ActivePlatformInfo
   ) => void;
+  handleCheckImageUploadSize: (e: ChangeEvent<HTMLInputElement>) => void;
+  currentUpload: string | null;
+  isImageDimensionsInvalid: boolean;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
 
 const AppProvider = (props: PropsWithChildren) => {
   const [currentLinksList, setCurrentLinksList] = useState<LinksInfo[]>([]);
+  //
   const [currentUpload, setCurrentUpload] = useState<string | null>(null);
+  const [isImageDimensionsInvalid, setIsImageDimensionsInvalid] =
+    useState(false);
   //
 
+  const handleSetFileState = (e: FileList) => {
+    if (!e) return;
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setCurrentUpload(
+        typeof reader.result === "string" ? reader.result : null
+      );
+    };
+
+    reader.onerror = function (event) {
+      if (event.target) {
+        console.log("Error reading file:", event.target.error);
+      }
+      return;
+    };
+
+    reader.readAsDataURL(e[0]);
+  };
+
+  const handleCheckImageUploadSize = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.currentTarget?.files;
+    if (!file) return;
+    //
+    const img = new Image();
+    img.src = window.URL.createObjectURL(file[0]);
+    img.onload = () => {
+      if (img.naturalHeight > 1024 || img.naturalWidth > 1024) {
+        setIsImageDimensionsInvalid(true);
+        window.URL.revokeObjectURL(img.src);
+        return;
+      }
+      setIsImageDimensionsInvalid(false);
+      window.URL.revokeObjectURL(img.src);
+      handleSetFileState(file);
+    };
+  };
+
+  //
+  //
+  //
   //
   const handleAddNewLink = () => {
     setCurrentLinksList((prevValues) => {
@@ -73,6 +120,9 @@ const AppProvider = (props: PropsWithChildren) => {
         handleAddNewLink,
         handleRemoveLink,
         updateLinkValues,
+        handleCheckImageUploadSize,
+        currentUpload,
+        isImageDimensionsInvalid,
       }}
     >
       {props.children}
