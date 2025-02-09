@@ -1,4 +1,3 @@
-
 import { MobilePreviewHeader, MobilePreviewLinksList } from "./preview-container-comps";
 
 const PreviewDataContainer = () => {

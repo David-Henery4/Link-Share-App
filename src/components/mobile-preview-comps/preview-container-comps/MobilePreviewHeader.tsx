@@ -4,7 +4,7 @@ import useGlobalContext from "@/context/useGlobalContext";
 import Image from "next/image";
 
 const MobilePreviewHeader = () => {
-  const {currentUpload} = useGlobalContext()
+  const {currentUpload, profileDetails} = useGlobalContext()
   //
   return (
     <div className="flex flex-col justify-start items-center gap-[19px] text-center">
@@ -27,14 +27,29 @@ const MobilePreviewHeader = () => {
 
       <div className="w-full">
         <div className="min-h-7">
+          {(profileDetails?.firstName || profileDetails?.lastName) && (
+            <BaseText
+              size="medium"
+              className="text-darkGrey text-lg font-semibold"
+            >
+              {`${profileDetails.firstName ? profileDetails.firstName : ""} ${
+                profileDetails.lastName ? profileDetails.lastName : ""
+              }`}
+            </BaseText>
+          )}
           {/* <BaseText
             size="medium"
             className="text-darkGrey text-lg font-semibold"
           >
-            Ben Wright
+            {``}
           </BaseText> */}
         </div>
         <div className="min-h-5">
+          {profileDetails?.email && (
+            <BaseText size="small" className="text-sm">
+              {profileDetails.email}
+            </BaseText>
+          )}
           {/* <BaseText size="small" className="text-sm">
             ben@example.com
           </BaseText> */}

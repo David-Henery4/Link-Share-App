@@ -19,6 +19,15 @@ interface AppContextType {
   handleCheckImageUploadSize: (e: ChangeEvent<HTMLInputElement>) => void;
   currentUpload: string | null;
   isImageDimensionsInvalid: boolean;
+  handleUpdateProfileDetails: (
+    detailName: "firstName" | "lastName" | "email",
+    detailValue: string
+  ) => void;
+  profileDetails: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -30,7 +39,24 @@ const AppProvider = (props: PropsWithChildren) => {
   const [isImageDimensionsInvalid, setIsImageDimensionsInvalid] =
     useState(false);
   //
-
+  const [profileDetails, setProfileDetails] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
+  //
+  const handleUpdateProfileDetails = (
+    detailName: "firstName" | "lastName" | "email",
+    detailValue: string
+  ) => {
+    setProfileDetails((prev) => {
+      return {
+        ...prev,
+        [detailName]: detailValue,
+      };
+    });
+  };
+  //
   const handleSetFileState = (e: FileList) => {
     if (!e) return;
     const reader = new FileReader();
@@ -50,7 +76,7 @@ const AppProvider = (props: PropsWithChildren) => {
 
     reader.readAsDataURL(e[0]);
   };
-
+  //
   const handleCheckImageUploadSize = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget?.files;
     if (!file) return;
@@ -68,10 +94,6 @@ const AppProvider = (props: PropsWithChildren) => {
       handleSetFileState(file);
     };
   };
-
-  //
-  //
-  //
   //
   const handleAddNewLink = () => {
     setCurrentLinksList((prevValues) => {
@@ -123,6 +145,8 @@ const AppProvider = (props: PropsWithChildren) => {
         handleCheckImageUploadSize,
         currentUpload,
         isImageDimensionsInvalid,
+        profileDetails,
+        handleUpdateProfileDetails,
       }}
     >
       {props.children}
