@@ -55,3 +55,9 @@ export async function logout() {
   await deleteSession()
   redirect("/login");
 }
+
+
+// Signup Functionality
+export async function signup(_prevState: unknown, formData: FormData) {
+  
+}
