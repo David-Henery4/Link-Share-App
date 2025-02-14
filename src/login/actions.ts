@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createClient } from "@/utils/server";
+import { createProfileDetails } from "@/db/queries/queries";
 
 // const testUser = {
 //   id: "1",
@@ -32,11 +33,11 @@ const signupSchema = loginSchema
       .string()
       .min(8, { message: "Password must be at least 8 characters" })
       .trim(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
+  }).refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+    path: ["confirmPassword"],});
+
+
 
 export async function login(
   _prevState: unknown,
@@ -57,7 +58,7 @@ export async function login(
   if (error) {
     return {
       errors: {
-        neutral: ["Invalid email or password"],
+        neutral: [error.message],
       },
     };
   }
@@ -70,8 +71,6 @@ export async function signup(
   formData: FormData
 ): Promise<LoginReturnType | undefined> {
   const supabase = await createClient();
-  //
-  console.log("formData: ",Object.fromEntries(formData));
   const results = signupSchema.safeParse(Object.fromEntries(formData));
   //
   if (!results.success) {
@@ -80,22 +79,33 @@ export async function signup(
     };
   }
   const { email, password } = results.data;
-  const { error } = await supabase.auth.signUp({ email, password });
+  const { error, data } = await supabase.auth.signUp({ email, password });
   if (error) {
+    return {
+      errors: {
+        neutral: [error.message],
+      },
+    };
+  }
+  const userId = data.user?.id;
+  const userEmail = data.user?.email;
+  if (!userId || !userEmail) {
     return {
       errors: {
         neutral: ["There has been a problem, please try again later"],
       },
     };
   }
+  createProfileDetails(userId, userEmail);
   redirect("/");
+  //
 }
 
-export async function logout (){
-  const supabase = await createClient()
-  const {error} = await supabase.auth.signOut()
-  if (error){
-    console.error(error.status, error.message)
+export async function logout() {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error(error.status, error.message);
   }
   redirect("/");
 }
