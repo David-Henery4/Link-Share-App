@@ -1,27 +1,13 @@
-import { relations } from "drizzle-orm";
 import { pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
-import { usersTable } from "./usersSchema";
-
-// WILL BE GOING WITH cloudinary and then storing the URL in "profile_picture"
 
 export const profileDetailsTable = pgTable("profile_details_table", {
-  id: uuid("id").primaryKey().unique(),
-  userId: uuid("user_id")
-    .primaryKey()
-    .unique()
-    .references(() => usersTable.id),
-  userEmail: varchar().references(() => usersTable.email),
+  id: uuid("id").primaryKey().notNull(),
+  userId: uuid("user_id").unique().notNull(),
+  userEmail: varchar("userEmail", { length: 256 }).notNull(),
   firstName: text("first_name"),
   lastName: text("last_name"),
   profilePicture: text("profile_picture"),
 });
 
-export const profileDetailsTableRelations = relations(
-  profileDetailsTable,
-  ({ one }) => ({
-    user: one(usersTable, {
-      fields: [profileDetailsTable.userId],
-      references: [usersTable.id],
-    }),
-  })
-);
+export type InsertProfileDetails = typeof profileDetailsTable.$inferInsert;
+export type SelectProfileDetails = typeof profileDetailsTable.$inferSelect;

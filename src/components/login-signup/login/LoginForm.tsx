@@ -5,6 +5,8 @@ import { login } from "@/login/actions";
 import LoginSubmitBtn from "./LoginSubmitBtn";
 import { BaseText } from "@/components/reusable/text";
 
+// Maybe hide password word when typed, and give option to see it
+
 const LoginForm = () => {
   const [state, loginAction] = useActionState(login, {
     errors: { email: undefined, password: undefined, neutral: undefined },

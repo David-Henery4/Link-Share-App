@@ -1,23 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { decrypt } from "./libs/session";
 
-const privateRoutes = ["/", "/profile-details"];
-const publicRoutes = ["/login", "sign-up"]
-// const neutralRoutes = ["/preview"]
+import { type NextRequest } from "next/server";
+import { updateSession } from "@/utils/supabase/middleware";
 
-export default async function middleware(req: NextRequest){
-  const isProtectRoute = privateRoutes.includes(req.nextUrl.pathname);
-  const isPublicRoute = publicRoutes.includes(req.nextUrl.pathname);
-  const cookie = (await cookies()).get("session")?.value;
-  const session = await decrypt(cookie)
-  //
-  if (isProtectRoute && !session?.userId){
-    return NextResponse.redirect(new URL("/login", req.nextUrl))
-  }
-  if (isPublicRoute && session?.userId){
-    return NextResponse.redirect(new URL("/", req.nextUrl))
-  }
-  //
-  return NextResponse.next()
+export async function middleware(request: NextRequest) {
+  return await updateSession(request);
 }
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * Feel free to modify this pattern to include more paths.
+     */
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
+};
+
