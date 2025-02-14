@@ -1,11 +1,12 @@
-"use client";
-// import { logout } from "@/login/actions";
+"use client"
+import { logout } from "@/login/actions";
 
 const LogoutBtn = () => {
+  // 
   return (
     <button
       className="ml-auto text-base font-semibold text-purple hover:text-purpleHover"
-      // onClick={() => logout()}
+      onClick={() => logout()}
     >
       Logout
     </button>

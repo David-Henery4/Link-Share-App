@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/server";
 
 export default async function Home() {
+  // Might have to move to layout
   const supabase = createClient()
   const {data, error} = await (await supabase).auth.getUser()
   console.log(data)

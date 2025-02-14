@@ -1,9 +1,6 @@
 "use server";
-// import { createSession, deleteSession } from "@/libs/session";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-//
-// import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/server";
 
 // const testUser = {
@@ -90,6 +87,15 @@ export async function signup(
         neutral: ["There has been a problem, please try again later"],
       },
     };
+  }
+  redirect("/");
+}
+
+export async function logout (){
+  const supabase = await createClient()
+  const {error} = await supabase.auth.signOut()
+  if (error){
+    console.error(error.status, error.message)
   }
   redirect("/");
 }
