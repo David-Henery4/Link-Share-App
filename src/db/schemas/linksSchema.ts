@@ -15,10 +15,9 @@ export const linksTable = pgTable("links_table", {
 
 export const platformTable = pgTable("platform_table", {
   id: uuid("id").primaryKey(),
-  label: text(),
-  value: text(),
-  icon: text(),
-  color: text(),
+  label: text("label").notNull(),
+  value: text("value").notNull(),
+  color: text("color").notNull(),
 });
 
 export const linksRelations = relations(linksTable, ({ one }) => ({

@@ -34,6 +34,9 @@ const AppContext = createContext<AppContextType | null>(null);
 
 const AppProvider = (props: PropsWithChildren) => {
   const [currentLinksList, setCurrentLinksList] = useState<LinksInfo[]>([]);
+
+  // list of linkIds to be deleted when save button is clicked
+  // const [linksToBeDeleted, setLinksToBeDeleted] = useState([])
   //
   const [currentUpload, setCurrentUpload] = useState<string | null>(null);
   const [isImageDimensionsInvalid, setIsImageDimensionsInvalid] =

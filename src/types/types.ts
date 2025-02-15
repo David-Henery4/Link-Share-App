@@ -1,5 +1,5 @@
 export interface ActivePlatformInfo {
-  id: number;
+  id: string;
   label: string;
   value: string;
   icon: ({ isPreview }: { isPreview?: boolean | undefined }) => JSX.Element;
