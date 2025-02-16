@@ -1,6 +1,7 @@
 "use client";
 import useGlobalContext from "@/context/useGlobalContext";
 import { ArrowRightIcon } from "@/components/icons";
+import DynamicIcon from "@/components/icons/link-icons/DynamicIcon";
 
 const MobilePreviewLinksList = () => {
   const { currentLinksList } = useGlobalContext();
@@ -13,11 +14,11 @@ const MobilePreviewLinksList = () => {
             <div
               key={link.id}
               className="w-full py-3 px-4 rounded-lg flex justify-between items-center"
-              style={{ backgroundColor: `${link.platform.color}` }}
+              style={{ backgroundColor: `${link.platformColour}` }}
             >
               <div className="flex justify-center items-center gap-2">
-                <link.platform.icon isPreview={true} />
-                <p className="text-white">{link.platform.label}</p>
+                <DynamicIcon activePlatformId={link.platformId} isPreview={true} />
+                <p className="text-white">{link.platformLabel}</p>
               </div>
               <ArrowRightIcon />
             </div>

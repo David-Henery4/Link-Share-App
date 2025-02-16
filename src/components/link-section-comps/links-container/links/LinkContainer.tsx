@@ -2,10 +2,10 @@
 import DragAndDropIcon from "../../../icons/DragAndDropIcon";
 import Button from "../../../reusable/Button";
 import { SelectInput, UrlInput } from "./link-inputs";
-import { LinksInfo } from "@/types/types";
+import { LinksDetails } from "@/types/types"; // LinksInfo
 import useGlobalContext from "@/context/useGlobalContext";
 
-interface LinkContainerProps extends LinksInfo {
+interface LinkContainerProps extends LinksDetails {
   linkIndex: number;
 }
 
@@ -13,7 +13,10 @@ const LinkContainer = ({
   linkIndex,
   url,
   id,
-  platform,
+  // platform,
+  platformId,
+  platformLabel,
+  platformValue
 }: LinkContainerProps) => {
   const {handleRemoveLink} = useGlobalContext()
   //
@@ -42,14 +45,15 @@ const LinkContainer = ({
 
       <form className="w-full mt-3">
         <SelectInput
-          activePlatform={platform}
+          activePlatform={{
+            id: platformId,
+            label: platformLabel,
+            value: platformValue,
+          }}
           id={id}
         />
 
-        <UrlInput
-          url={url}
-          id={id}
-        />
+        <UrlInput url={url} id={id} />
       </form>
     </div>
   );

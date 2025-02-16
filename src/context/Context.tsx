@@ -1,21 +1,23 @@
 "use client";
 import { useState, createContext, Dispatch, SetStateAction } from "react";
-import { LinksInfo } from "@/types/types";
+import { LinksDetails, UpdatedPlatformDetails } from "@/types/types"; // ActivePlatformInfo
 import { PropsWithChildren, ChangeEvent } from "react";
 import linkOptions from "@/local-data/linkOptions";
 import { v4 as uuidv4 } from "uuid";
-import { ActivePlatformInfo } from "@/types/types";
 
 interface AppContextType {
-  currentLinksList: LinksInfo[];
-  setCurrentLinksList: Dispatch<SetStateAction<LinksInfo[]>>;
+  currentLinksList: LinksDetails[];
+  setCurrentLinksList: Dispatch<SetStateAction<LinksDetails[]>>;
   handleAddNewLink: () => void;
   handleRemoveLink: (id: string) => void;
   updateLinkValues: (
     linkId: string,
     valueName: "platform" | "url",
-    newValue: string | ActivePlatformInfo
+    newValue: string | UpdatedPlatformDetails
   ) => void;
+
+  /////////////////////////////////////////
+
   handleCheckImageUploadSize: (e: ChangeEvent<HTMLInputElement>) => void;
   currentUpload: string | null;
   isImageDimensionsInvalid: boolean;
@@ -33,7 +35,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | null>(null);
 
 const AppProvider = (props: PropsWithChildren) => {
-  const [currentLinksList, setCurrentLinksList] = useState<LinksInfo[]>([]);
+  const [currentLinksList, setCurrentLinksList] = useState<LinksDetails[]>([]);
 
   // list of linkIds to be deleted when save button is clicked
   // const [linksToBeDeleted, setLinksToBeDeleted] = useState([])
@@ -98,14 +100,20 @@ const AppProvider = (props: PropsWithChildren) => {
     };
   };
   //
+
+  ///////////////////////////////////////////////////////////////////////////////
+
   const handleAddNewLink = () => {
     setCurrentLinksList((prevValues) => {
       return [
         ...prevValues,
         {
           id: uuidv4(),
-          platform: linkOptions[0],
           url: "",
+          platformId: linkOptions[0].id,
+          platformValue: linkOptions[0].value,
+          platformLabel: linkOptions[0].label,
+          platformColour: linkOptions[0].color,
         },
       ];
     });
@@ -120,22 +128,45 @@ const AppProvider = (props: PropsWithChildren) => {
   const updateLinkValues = (
     linkId: string,
     valueName: "platform" | "url",
-    newValue: string | ActivePlatformInfo
+    newValue: string | UpdatedPlatformDetails
   ) => {
-    setCurrentLinksList((prevValues) => {
-      const newArray = prevValues.map((linkItem) => {
-        if (linkId === linkItem.id) {
-          return {
-            ...linkItem,
-            [valueName]: newValue,
-          };
-        }
-        return linkItem;
+    
+    if (valueName === "platform" && typeof newValue !== "string") {
+      setCurrentLinksList((prevValues) => {
+        return prevValues.map((linkItem) => {
+          if (linkId === linkItem.id) {
+            return {
+              ...linkItem,
+              platformId: newValue.platformId,
+              platformLabel: newValue.platformLabel,
+              platformValue: newValue.platformValue,
+              platformColour: newValue.platformColour,
+            };
+          }
+          return linkItem;
+        });
       });
+      return;
+    }
 
-      return newArray;
-    });
+    if (valueName === "url" && typeof newValue === "string") {
+      setCurrentLinksList((prevValues) => {
+        return prevValues.map((linkItem) => {
+          if (linkId === linkItem.id) {
+            return {
+              ...linkItem,
+              url: newValue,
+            };
+          }
+          return linkItem;
+        });
+      });
+    }
+
   };
+
+  ////////////////////////////////////////////////////////////////////////////////////////////
+
   //
   return (
     <AppContext.Provider

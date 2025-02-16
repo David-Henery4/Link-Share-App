@@ -4,6 +4,7 @@ import LoginSignUpLogo from "@/components/login-signup/LoginSignUpLogo";
 import SignupForm from "@/components/login-signup/signup/SignupForm";
 
 const SignupPage = () => {
+  // add route protection to middleware
   return (
     <main className="w-full px-6 py-8 max-w-[476px] mx-auto smallTablet:px-0 tablet:py-44">
       <LoginSignUpLogo />

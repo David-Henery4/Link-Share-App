@@ -4,14 +4,11 @@ import { SelectInputProps } from "@/types/types";
 import { MouseEvent, useState } from "react";
 import { ActivePlatformInfo } from "@/types/types";
 import useGlobalContext from "@/context/useGlobalContext";
+import DynamicIcon from "@/components/icons/link-icons/DynamicIcon";
 
-
-const SelectInput = ({
-  activePlatform,
-  id
-}: SelectInputProps) => {
+const SelectInput = ({ activePlatform, id }: SelectInputProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const {updateLinkValues} = useGlobalContext()
+  const { updateLinkValues } = useGlobalContext();
   //
   const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -19,8 +16,15 @@ const SelectInput = ({
   };
   //
   const handleSelectItemClick = (option: ActivePlatformInfo) => {
+    const updatedPlatformValues = {
+      platformId: option.id,
+      platformLabel: option.label,
+      platformValue: option.value,
+      platformColour: option.color
+    }
+    // console.log(option)
     setIsDropdownOpen(!isDropdownOpen);
-    updateLinkValues(id, "platform", option);
+    updateLinkValues(id, "platform", updatedPlatformValues);
   };
   //
   return (
@@ -33,7 +37,9 @@ const SelectInput = ({
           className="group relative w-full inline-flex justify-between items-center gap-3 mt-1 px-4 py-3 rounded-lg border border-border outline-none hover:cursor-pointer hover:border-purple hover:shadow-basicPurple"
           onClick={handleButtonClick}
         >
-          <span className="">{<activePlatform.icon />}</span>
+          <span className="">
+            <DynamicIcon activePlatformId={activePlatform.id} />
+          </span>
           <p className="mr-auto group-hover:text-purple">
             {activePlatform.label}
           </p>
