@@ -26,6 +26,7 @@ export interface LinksInfo {
 
 export interface LinksDetails {
   id: string;
+  userId: string;
   url: string;
   platformId: string;
   platformLabel: string;

@@ -13,3 +13,8 @@ export async function createProfileDetails(userId: string, userEmail: string) {
     return;
   }
 }
+
+// Add linksList to the database
+// export async function addNewLinks(params) {
+//   // console.log(params)
+// }

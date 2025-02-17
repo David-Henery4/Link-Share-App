@@ -1,9 +1,18 @@
 "use client";
-import { useState, createContext, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+} from "react";
 import { LinksDetails, UpdatedPlatformDetails } from "@/types/types"; // ActivePlatformInfo
 import { PropsWithChildren, ChangeEvent } from "react";
 import linkOptions from "@/local-data/linkOptions";
 import { v4 as uuidv4 } from "uuid";
+import { createClient } from "@/utils/client";
+import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
 interface AppContextType {
   currentLinksList: LinksDetails[];
@@ -35,6 +44,10 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | null>(null);
 
 const AppProvider = (props: PropsWithChildren) => {
+  const router = useRouter();
+  const [currentUserDetails, setCurrentUserDetails] = useState<null | User>(
+    null
+  );
   const [currentLinksList, setCurrentLinksList] = useState<LinksDetails[]>([]);
 
   // list of linkIds to be deleted when save button is clicked
@@ -104,12 +117,15 @@ const AppProvider = (props: PropsWithChildren) => {
   ///////////////////////////////////////////////////////////////////////////////
 
   const handleAddNewLink = () => {
+    if (!currentUserDetails) return;
+    //
     setCurrentLinksList((prevValues) => {
       return [
         ...prevValues,
         {
           id: uuidv4(),
           url: "",
+          userId: currentUserDetails?.id,
           platformId: linkOptions[0].id,
           platformValue: linkOptions[0].value,
           platformLabel: linkOptions[0].label,
@@ -130,7 +146,6 @@ const AppProvider = (props: PropsWithChildren) => {
     valueName: "platform" | "url",
     newValue: string | UpdatedPlatformDetails
   ) => {
-    
     if (valueName === "platform" && typeof newValue !== "string") {
       setCurrentLinksList((prevValues) => {
         return prevValues.map((linkItem) => {
@@ -162,10 +177,23 @@ const AppProvider = (props: PropsWithChildren) => {
         });
       });
     }
-
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////
+
+  const handleGetUserData = async () => {
+    const { data, error } = await createClient().auth.getUser();
+    if (error) {
+      setCurrentUserDetails(null);
+      router.push("/login");
+      return;
+    }
+    setCurrentUserDetails(data.user);
+  };
+
+  useEffect(() => {
+    handleGetUserData();
+  }, []);
 
   //
   return (

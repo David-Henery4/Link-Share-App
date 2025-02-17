@@ -7,6 +7,10 @@ import useGlobalContext from "@/context/useGlobalContext";
 
 interface LinkContainerProps extends LinksDetails {
   linkIndex: number;
+  errorValues?: {
+    id: string,
+    url: string[]
+  }
 }
 
 const LinkContainer = ({
@@ -16,7 +20,8 @@ const LinkContainer = ({
   // platform,
   platformId,
   platformLabel,
-  platformValue
+  platformValue,
+  errorValues
 }: LinkContainerProps) => {
   const {handleRemoveLink} = useGlobalContext()
   //
@@ -43,7 +48,7 @@ const LinkContainer = ({
         </div>
       </div>
 
-      <form className="w-full mt-3">
+      <div className="w-full mt-3">
         <SelectInput
           activePlatform={{
             id: platformId,
@@ -53,8 +58,8 @@ const LinkContainer = ({
           id={id}
         />
 
-        <UrlInput url={url} id={id} />
-      </form>
+        <UrlInput url={url} id={id} errorValues={errorValues} />
+      </div>
     </div>
   );
 };

@@ -69,7 +69,7 @@ const SelectInput = ({ activePlatform, id }: SelectInputProps) => {
                 defaultChecked={option.value === activePlatform.value}
                 className="w-full h-full absolute top-0 left-0 opacity-0 hover:cursor-pointer"
                 type="radio"
-                name="platform"
+                name={`platform-${id}`}
                 id={`${option.value}-${option.id}`}
                 value={option.value}
               />
