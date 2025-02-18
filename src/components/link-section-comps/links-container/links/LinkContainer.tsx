@@ -2,15 +2,12 @@
 import DragAndDropIcon from "../../../icons/DragAndDropIcon";
 import Button from "../../../reusable/Button";
 import { SelectInput, UrlInput } from "./link-inputs";
-import { LinksDetails } from "@/types/types"; // LinksInfo
+import { LinksDetails, LinkErrorDetails } from "@/types/types"; // LinksInfo
 import useGlobalContext from "@/context/useGlobalContext";
 
 interface LinkContainerProps extends LinksDetails {
   linkIndex: number;
-  errorValues?: {
-    id: string,
-    url: string[]
-  }
+  errorValues?: LinkErrorDetails;
 }
 
 const LinkContainer = ({

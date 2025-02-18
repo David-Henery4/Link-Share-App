@@ -2,15 +2,7 @@
 import LinkContainer from "./links/LinkContainer";
 import useGlobalContext from "@/context/useGlobalContext";
 import { createLinks } from "@/db/queries/actions";
-import { useActionState, useEffect } from "react";
-
-// id: string;
-// userId: string;
-// url: string;
-// platformId: string;
-// platformLabel: string;
-// platformValue: string;
-// platformColour: string;
+import { useActionState } from "react";
 
 const LinksList = () => {
   const { currentLinksList } = useGlobalContext();
@@ -25,9 +17,6 @@ const LinksList = () => {
       ],
     }
   );
-  useEffect(() => {
-    console.log("State: ", state);
-  }, [state]);
   //
   return (
     <form
@@ -42,8 +31,14 @@ const LinksList = () => {
             (err) => err.id === linkInformation.id
           );
         }
-        console.log("errorValues: ", errorValues);
-        return <LinkContainer key={i} linkIndex={i} errorValues={errorValues} {...linkInformation} />;
+        return (
+          <LinkContainer
+            key={i}
+            linkIndex={i}
+            errorValues={errorValues}
+            {...linkInformation}
+          />
+        );
       })}
     </form>
   );

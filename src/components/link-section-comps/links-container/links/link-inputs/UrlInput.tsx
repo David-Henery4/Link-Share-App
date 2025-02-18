@@ -1,14 +1,12 @@
 import { LinkIcon } from "@/components/icons";
 import useGlobalContext from "@/context/useGlobalContext";
 import { BaseText } from "@/components/reusable/text";
+import { LinkErrorDetails } from "@/types/types";
 
 interface UrlInputProps {
   id: string;
   url: string;
-  errorValues?: {
-    id: string;
-    url: string[];
-  };
+  errorValues?: LinkErrorDetails;
 }
 
 const UrlInput = ({ url, id, errorValues }: UrlInputProps) => {
@@ -29,14 +27,14 @@ const UrlInput = ({ url, id, errorValues }: UrlInputProps) => {
             updateLinkValues(id, "url", e.target.value);
           }}
           value={url}
-          className="w-full outline-none bg-lightGrey/0"
-          type="url"
+          className="w-full flex-1 outline-none bg-lightGrey/0"
+          type="text"
           name={`link-${id}`}
           id={`link-${id}`}
         />
         {errorValues?.id && (
           <BaseText className="text-red" size="small">
-            {errorValues.url[0]}
+            { errorValues.url && errorValues.url[0]}
           </BaseText>
         )}
       </div>

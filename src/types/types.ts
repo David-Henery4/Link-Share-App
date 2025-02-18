@@ -42,3 +42,12 @@ export interface SelectInputProps {
   };
   id: string;
 }
+
+export interface LinkErrorDetails {
+  id: string | undefined;
+  url: string[] | undefined;
+}
+
+export interface LinkErrorsList {
+  errors: LinkErrorDetails[];
+}

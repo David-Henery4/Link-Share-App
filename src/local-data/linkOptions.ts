@@ -47,7 +47,7 @@ const linkOptions = [
   {
     id: "9008b11f-9fd4-4545-bf23-efa55430b9ca",
     label: "Frontend Mentor",
-    value: "frontend-mentor",
+    value: "frontendmentor",
     icon: FrontendMentorIcon,
     color: "#FFFFFF",
   },
@@ -75,7 +75,7 @@ const linkOptions = [
   {
     id: "60fddcdb-0187-46b5-89b6-6d6a8d2dc519",
     label: "Dev.to",
-    value: "dev-to",
+    value: "dev",
     icon: DevToIcon,
     color: "#333333",
   },
@@ -96,7 +96,7 @@ const linkOptions = [
   {
     id: "4b637df7-b5f6-44ed-9bd8-4a17d3ce2b93",
     label: "freeCodeCamp",
-    value: "free-code-camp",
+    value: "freecodecamp",
     icon: FreeCodeCampLogoIcon,
     color: "#302267",
   },
@@ -110,7 +110,7 @@ const linkOptions = [
   {
     id: "d13f8449-b07a-4071-b80a-8564108f459d",
     label: "Stack Overflow",
-    value: "stack-overflow",
+    value: "stackoverflow",
     icon: StackOverflowIcon,
     color: "#EC7100",
   },
