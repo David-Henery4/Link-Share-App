@@ -13,12 +13,26 @@ const MobilePreviewLinksList = () => {
           return (
             <div
               key={link.id}
-              className="w-full py-3 px-4 rounded-lg flex justify-between items-center"
+              className={`w-full py-3 px-4 rounded-lg flex justify-between items-center ${
+                link.platformValue === "frontendmentor" &&
+                "border border-border"
+              }`}
               style={{ backgroundColor: `${link.platformColour}` }}
             >
               <div className="flex justify-center items-center gap-2">
-                <DynamicIcon activePlatformId={link.platformId} isPreview={true} />
-                <p className="text-white">{link.platformLabel}</p>
+                <DynamicIcon
+                  activePlatformId={link.platformId}
+                  isPreview={true}
+                />
+                <p
+                  className={`${
+                    link.platformValue === "frontendmentor"
+                      ? "text-black"
+                      : "text-white"
+                  }`}
+                >
+                  {link.platformLabel}
+                </p>
               </div>
               <ArrowRightIcon />
             </div>
