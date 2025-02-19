@@ -10,7 +10,7 @@ export const linksTable = pgTable("links_table", {
   platformId: uuid("platform_id").notNull(),
   platformLabel: text("platform_label").notNull(),
   platformValue: text("platform_value").notNull(),
-  platformColor: text("platform_color").notNull(),
+  platformColour: text("platform_colour").notNull(),
 });
 
 

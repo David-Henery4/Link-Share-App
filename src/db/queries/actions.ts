@@ -1,7 +1,6 @@
 "use server";
-// import { z } from "zod";
 import { LinksDetails, LinkErrorsList, LinkErrorDetails } from "@/types/types";
-// import { addNewLinks } from "./queries";
+import { addNewLinks } from "./queries";
 
 const handleUrlCheck = (platformValue: string, url: string, ext: string) => {
   if (platformValue === "twitter") {
@@ -100,7 +99,12 @@ export async function createLinks(
       return { errors: urlRay };
     }
 
+
     // Success
+    const result = await addNewLinks(currentLinks)
+    console.log("addNewLinks success: ", result);
+
+
   } catch (error) {
     console.error(error);
   }
