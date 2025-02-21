@@ -6,7 +6,7 @@ import {
   SetStateAction,
   useEffect,
 } from "react";
-import { LinksDetails, UpdatedPlatformDetails } from "@/types/types"; // ActivePlatformInfo
+import { LinksDetails, UpdatedPlatformDetails } from "@/types/types";
 import { PropsWithChildren, ChangeEvent } from "react";
 import linkOptions from "@/local-data/linkOptions";
 import { v4 as uuidv4 } from "uuid";
@@ -24,9 +24,6 @@ interface AppContextType {
     valueName: "platform" | "url",
     newValue: string | UpdatedPlatformDetails
   ) => void;
-
-  /////////////////////////////////////////
-
   handleCheckImageUploadSize: (e: ChangeEvent<HTMLInputElement>) => void;
   currentUpload: string | null;
   isImageDimensionsInvalid: boolean;
@@ -113,9 +110,6 @@ const AppProvider = (props: PropsWithChildren) => {
     };
   };
   //
-
-  ///////////////////////////////////////////////////////////////////////////////
-
   const handleAddNewLink = () => {
     if (!currentUserDetails) return;
     //
@@ -178,9 +172,7 @@ const AppProvider = (props: PropsWithChildren) => {
       });
     }
   };
-
-  ////////////////////////////////////////////////////////////////////////////////////////////
-
+  //
   const handleGetUserData = async () => {
     const { data, error } = await createClient().auth.getUser();
     if (error) {
@@ -190,7 +182,9 @@ const AppProvider = (props: PropsWithChildren) => {
     }
     setCurrentUserDetails(data.user);
   };
-
+  //
+  
+  //
   useEffect(() => {
     handleGetUserData();
   }, []);

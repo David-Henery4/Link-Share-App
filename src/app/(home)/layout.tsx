@@ -15,10 +15,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AppProvider>
-      <html lang="en" className={`${instrumentSans.variable}`}>
-        <body className={`font-instrumentSans bg-lightGrey`}>
-          {/* {children} */}
+    <html lang="en" className={`${instrumentSans.variable}`}>
+      <body className={`font-instrumentSans bg-lightGrey`}>
+        <AppProvider>
           <div className="w-full flex flex-col min-h-[100svh] max-w-maxBodyWidth mx-auto">
             <Navbar />
             <main className="w-full flex flex-row-reverse gap-6 flex-grow-[1] p-4 lgMob:p-6">
@@ -26,8 +25,8 @@ export default function RootLayout({
               <MobilePreviewSection />
             </main>
           </div>
-        </body>
-      </html>
-    </AppProvider>
+        </AppProvider>
+      </body>
+    </html>
   );
 }
