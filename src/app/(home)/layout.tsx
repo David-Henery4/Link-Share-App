@@ -1,8 +1,11 @@
+// import {ReactQueryDevtools} from "@tanstack/react-query-devtools"
 import type { Metadata } from "next";
 import { AppProvider } from "@/context/Context";
 import { instrumentSans } from "../fonts/fonts";
 import "../globals.css";
 import { MobilePreviewSection, Navbar } from "@/components";
+import Providers from "@/query/Providers";
+import HydrateComps from "@/components/HydrateComps";
 
 export const metadata: Metadata = {
   title: "Link Share",
@@ -17,15 +20,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${instrumentSans.variable}`}>
       <body className={`font-instrumentSans bg-lightGrey`}>
-        <AppProvider>
-          <div className="w-full flex flex-col min-h-[100svh] max-w-maxBodyWidth mx-auto">
-            <Navbar />
-            <main className="w-full flex flex-row-reverse gap-6 flex-grow-[1] p-4 lgMob:p-6">
-              {children}
-              <MobilePreviewSection />
-            </main>
-          </div>
-        </AppProvider>
+        <Providers>
+          <AppProvider>
+            <HydrateComps>
+              <div className="w-full flex flex-col min-h-[100svh] max-w-maxBodyWidth mx-auto">
+                <Navbar />
+                <main className="w-full flex flex-row-reverse gap-6 flex-grow-[1] p-4 lgMob:p-6">
+                  {children}
+                  <MobilePreviewSection />
+                </main>
+              </div>
+            </HydrateComps>
+          </AppProvider>
+        </Providers>
       </body>
     </html>
   );

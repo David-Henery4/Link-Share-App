@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 
 interface AppContextType {
   currentLinksList: LinksDetails[];
+  currentUserDetails: null | User;
   setCurrentLinksList: Dispatch<SetStateAction<LinksDetails[]>>;
   handleAddNewLink: () => void;
   handleRemoveLink: (id: string) => void;
@@ -194,6 +195,7 @@ const AppProvider = (props: PropsWithChildren) => {
     <AppContext.Provider
       value={{
         currentLinksList,
+        currentUserDetails,
         setCurrentLinksList,
         handleAddNewLink,
         handleRemoveLink,
