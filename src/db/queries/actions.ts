@@ -24,6 +24,7 @@ export async function createLinks(
   _formData: FormData
 ): Promise<undefined | LinkErrorsList> {
   try {
+    console.log("called")
     const urlRay: LinkErrorDetails[] = [];
 
     currentLinks.forEach((item) => {

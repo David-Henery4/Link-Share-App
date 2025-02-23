@@ -1,16 +1,21 @@
 import { LinkIcon } from "@/components/icons";
-import useGlobalContext from "@/context/useGlobalContext";
+// import useGlobalContext from "@/context/useGlobalContext";
 import { BaseText } from "@/components/reusable/text";
-import { LinkErrorDetails } from "@/types/types";
+import { LinkErrorDetails, UpdatedPlatformDetails } from "@/types/types";
 
 interface UrlInputProps {
   id: string;
   url: string;
   errorValues?: LinkErrorDetails;
+  updateLinkValues: (
+    linkId: string,
+    valueName: "platform" | "url",
+    newValue: string | UpdatedPlatformDetails
+  ) => void;
 }
 
-const UrlInput = ({ url, id, errorValues }: UrlInputProps) => {
-  const {updateLinkValues} = useGlobalContext();
+const UrlInput = ({ url, id, errorValues, updateLinkValues }: UrlInputProps) => {
+  // const { updateLinkValues } = useGlobalContext();
 
   //
   return (
@@ -34,7 +39,7 @@ const UrlInput = ({ url, id, errorValues }: UrlInputProps) => {
         />
         {errorValues?.id && (
           <BaseText className="text-red" size="small">
-            { errorValues.url && errorValues.url[0]}
+            {errorValues.url && errorValues.url[0]}
           </BaseText>
         )}
       </div>

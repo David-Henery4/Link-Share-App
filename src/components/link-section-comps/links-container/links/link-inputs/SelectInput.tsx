@@ -2,13 +2,21 @@ import { ChevIcon } from "@/components/icons";
 import linkOptions from "@/local-data/linkOptions";
 import { SelectInputProps } from "@/types/types";
 import { MouseEvent, useState } from "react";
-import { ActivePlatformInfo } from "@/types/types";
-import useGlobalContext from "@/context/useGlobalContext";
+import { ActivePlatformInfo, UpdatedPlatformDetails } from "@/types/types";
+// import useGlobalContext from "@/context/useGlobalContext";
 import DynamicIcon from "@/components/icons/link-icons/DynamicIcon";
 
-const SelectInput = ({ activePlatform, id }: SelectInputProps) => {
+interface TempSelect extends SelectInputProps {
+  updateLinkValues: (
+      linkId: string,
+      valueName: "platform" | "url",
+      newValue: string | UpdatedPlatformDetails
+    ) => void;
+}
+
+const SelectInput = ({ activePlatform, id, updateLinkValues }: TempSelect) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { updateLinkValues } = useGlobalContext();
+  // const { updateLinkValues } = useGlobalContext();
   //
   const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -20,8 +28,8 @@ const SelectInput = ({ activePlatform, id }: SelectInputProps) => {
       platformId: option.id,
       platformLabel: option.label,
       platformValue: option.value,
-      platformColour: option.color
-    }
+      platformColour: option.color,
+    };
     // console.log(option)
     setIsDropdownOpen(!isDropdownOpen);
     updateLinkValues(id, "platform", updatedPlatformValues);

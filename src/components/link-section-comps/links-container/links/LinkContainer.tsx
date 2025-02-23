@@ -2,12 +2,19 @@
 import DragAndDropIcon from "../../../icons/DragAndDropIcon";
 import Button from "../../../reusable/Button";
 import { SelectInput, UrlInput } from "./link-inputs";
-import { LinksDetails, LinkErrorDetails } from "@/types/types"; // LinksInfo
-import useGlobalContext from "@/context/useGlobalContext";
+import { LinksDetails, LinkErrorDetails, UpdatedPlatformDetails } from "@/types/types"; // LinksInfo
+// import useGlobalContext from "@/context/useGlobalContext";
+// import { useQueryClient } from "@tanstack/react-query";
 
 interface LinkContainerProps extends LinksDetails {
   linkIndex: number;
   errorValues?: LinkErrorDetails;
+  handleRemove: (id: string) => void;
+  updateLinkValues: (
+    linkId: string,
+    valueName: "platform" | "url",
+    newValue: string | UpdatedPlatformDetails
+  ) => void;
 }
 
 const LinkContainer = ({
@@ -18,9 +25,19 @@ const LinkContainer = ({
   platformId,
   platformLabel,
   platformValue,
-  errorValues
+  errorValues,
+  //
+  handleRemove,
+  updateLinkValues
 }: LinkContainerProps) => {
-  const {handleRemoveLink} = useGlobalContext()
+  // const {handleRemoveLink} = useGlobalContext()
+  // const queryClient = useQueryClient();
+  //
+  // const handleRemove = () => {
+  //   // setCurrentLinksList((prevValues) => {
+  //   //   return prevValues.filter((item) => id !== item.id);
+  //   // });
+  // };
   //
   return (
     <div className="w-full p-5 rounded-xl bg-lightGrey">
@@ -37,8 +54,9 @@ const LinkContainer = ({
             buttonType="third"
             className="font-medium p-0 hover:text-darkGrey"
             onClick={() => {
-              handleRemoveLink(id);
+              handleRemove(id);
             }}
+            type="button"
           >
             Remove
           </Button>
@@ -47,6 +65,7 @@ const LinkContainer = ({
 
       <div className="w-full mt-3">
         <SelectInput
+          updateLinkValues={updateLinkValues}
           activePlatform={{
             id: platformId,
             label: platformLabel,
@@ -55,7 +74,12 @@ const LinkContainer = ({
           id={id}
         />
 
-        <UrlInput url={url} id={id} errorValues={errorValues} />
+        <UrlInput
+          updateLinkValues={updateLinkValues}
+          url={url}
+          id={id}
+          errorValues={errorValues}
+        />
       </div>
     </div>
   );
