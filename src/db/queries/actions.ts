@@ -1,6 +1,6 @@
 "use server";
 import { LinksDetails, LinkErrorsList, LinkErrorDetails } from "@/types/types";
-import { addNewLinks } from "./queries";
+import { addNewLinks, deleteLinks } from "./queries";
 
 const handleUrlCheck = (platformValue: string, url: string, ext: string) => {
   if (platformValue === "twitter") {
@@ -20,18 +20,20 @@ const handleUrlCheck = (platformValue: string, url: string, ext: string) => {
 
 export async function createLinks(
   currentLinks: LinksDetails[] | undefined,
+  deletedList: LinksDetails[] | [],
   _prevState: unknown,
   _formData: FormData
 ): Promise<undefined | LinkErrorsList> {
   try {
     // create new type to "LinkErrorsList" and add isListError maybe?
-    
-    if (!currentLinks){
+    console.log("Params is...", deletedList);
+
+    if (!currentLinks) {
       return {
-        errors: [{id: undefined, url: undefined}],
-        isNoList: true
+        errors: [{ id: undefined, url: undefined }],
+        isNoList: true,
+      };
     }
-  }
 
     console.log("called");
     const urlRay: LinkErrorDetails[] = [];
@@ -113,11 +115,20 @@ export async function createLinks(
       return { errors: urlRay, isNoList: false };
     }
 
+
+    if (deletedList.length >= 1){
+      const result = await deleteLinks(deletedList)
+      console.log("Deleted Item success: ", result);
+    }
+
     // Success
     const result = await addNewLinks(currentLinks);
     console.log("addNewLinks success: ", result);
+
+    
+
     // Reset Error (No sure if needed)
-    return undefined
+    return undefined;
   } catch (error) {
     console.error(error);
   }

@@ -2,7 +2,7 @@ import { profileDetailsTable } from "../schemas/profileDetailsSchema";
 import {linksTable} from "../schemas/linksSchema";
 import { LinksDetails } from "@/types/types";
 import { db } from "..";
-import { sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 
 // Create Profile Details
 export async function createProfileDetails(userId: string, userEmail: string) {
@@ -40,6 +40,27 @@ export async function addNewLinks(linksList: LinksDetails[]) {
     return response
   } catch (error) {
     console.error(error);
+    return;
+  }
+}
+
+export async function deleteLinks(deleteList: LinksDetails[]){
+  try {
+    let res;
+    deleteList.forEach(async (link) => {
+      res = await db
+        .delete(linksTable)
+        .where(
+          and(
+            eq(linksTable.userId, link.userId),
+            eq(linksTable.id, link.id)
+          )
+        );
+    })
+    console.log("Done", res);
+    return res;
+  } catch (error) {
+    console.error(error)
     return;
   }
 }

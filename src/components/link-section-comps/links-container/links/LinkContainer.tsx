@@ -2,9 +2,7 @@
 import DragAndDropIcon from "../../../icons/DragAndDropIcon";
 import Button from "../../../reusable/Button";
 import { SelectInput, UrlInput } from "./link-inputs";
-import { LinksDetails, LinkErrorDetails, UpdatedPlatformDetails } from "@/types/types"; // LinksInfo
-// import useGlobalContext from "@/context/useGlobalContext";
-// import { useQueryClient } from "@tanstack/react-query";
+import { LinksDetails, LinkErrorDetails, UpdatedPlatformDetails } from "@/types/types";
 
 interface LinkContainerProps extends LinksDetails {
   linkIndex: number;
@@ -30,14 +28,6 @@ const LinkContainer = ({
   handleRemove,
   updateLinkValues
 }: LinkContainerProps) => {
-  // const {handleRemoveLink} = useGlobalContext()
-  // const queryClient = useQueryClient();
-  //
-  // const handleRemove = () => {
-  //   // setCurrentLinksList((prevValues) => {
-  //   //   return prevValues.filter((item) => id !== item.id);
-  //   // });
-  // };
   //
   return (
     <div className="w-full p-5 rounded-xl bg-lightGrey">
