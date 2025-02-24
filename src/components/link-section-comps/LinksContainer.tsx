@@ -13,9 +13,13 @@ import { useQueryClient } from "@tanstack/react-query";
 // import { listOptions } from "@/query/queryFunctions";
 import { LinksDetails } from "@/types/types";
 import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
 
 const LinksContainer = () => {
-  const {  currentUserDetails } = useGlobalContext();
+  // list of linkIds to be deleted when save button is clicked
+  const [linksToBeDeleted, setLinksToBeDeleted] = useState([])
+  //
+  const { currentUserDetails } = useGlobalContext();
   // const { data } = useSuspenseQuery(listOptions);
   // console.log("Checking data: ", data);
   const queryClient = useQueryClient();
@@ -27,7 +31,7 @@ const LinksContainer = () => {
     queryKey: ["links"],
     queryFn: () => fetchLinks(),
     // staleTime: Infinity,
-  })
+  });
   console.log("LinksContainer Data ", data);
   //
   const handleAddNew = () => {
@@ -47,7 +51,7 @@ const LinksContainer = () => {
         },
       ];
     });
-  }
+  };
   //
   return (
     <div className="w-full mt-10">
@@ -60,11 +64,7 @@ const LinksContainer = () => {
       >
         + Add new link
       </Button>
-      {isSuccess && data.length <= 0 ? (
-        <EmptyContainer />
-      ) : (
-        <LinksList />
-      )}
+      {isSuccess && data.length <= 0 ? <EmptyContainer /> : <LinksList />}
     </div>
   );
 };
