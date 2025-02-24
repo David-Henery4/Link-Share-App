@@ -6,6 +6,7 @@ import "../globals.css";
 import { MobilePreviewSection, Navbar } from "@/components";
 import Providers from "@/query/Providers";
 import HydrateComps from "@/components/HydrateComps";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Link Share",
@@ -30,6 +31,7 @@ export default function RootLayout({
                   <MobilePreviewSection />
                 </main>
               </div>
+              <Toaster/>
             </HydrateComps>
           </AppProvider>
         </Providers>

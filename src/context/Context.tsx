@@ -110,7 +110,8 @@ const AppProvider = (props: PropsWithChildren) => {
       handleSetFileState(file);
     };
   };
-  //
+
+  //// ✅
   const handleAddNewLink = () => {
     if (!currentUserDetails) return;
     //
@@ -129,13 +130,13 @@ const AppProvider = (props: PropsWithChildren) => {
       ];
     });
   };
-  //
+  //// ✅
   const handleRemoveLink = (id: string) => {
     setCurrentLinksList((prevValues) => {
       return prevValues.filter((item) => id !== item.id);
     });
   };
-  //
+  //// ✅
   const updateLinkValues = (
     linkId: string,
     valueName: "platform" | "url",
@@ -173,7 +174,8 @@ const AppProvider = (props: PropsWithChildren) => {
       });
     }
   };
-  //
+  
+  
   const handleGetUserData = async () => {
     const { data, error } = await createClient().auth.getUser();
     if (error) {
@@ -184,7 +186,7 @@ const AppProvider = (props: PropsWithChildren) => {
     setCurrentUserDetails(data.user);
   };
   //
-  
+
   //
   useEffect(() => {
     handleGetUserData();

@@ -19,16 +19,24 @@ const handleUrlCheck = (platformValue: string, url: string, ext: string) => {
 };
 
 export async function createLinks(
-  currentLinks: LinksDetails[],
+  currentLinks: LinksDetails[] | undefined,
   _prevState: unknown,
   _formData: FormData
 ): Promise<undefined | LinkErrorsList> {
   try {
-    console.log("called")
+    // create new type to "LinkErrorsList" and add isListError maybe?
+    
+    if (!currentLinks){
+      return {
+        errors: [{id: undefined, url: undefined}],
+        isNoList: true
+    }
+  }
+
+    console.log("called");
     const urlRay: LinkErrorDetails[] = [];
 
     currentLinks.forEach((item) => {
-
       // Check for invalid Empty URL
       if (item.url.length <= 0) {
         urlRay.push({
@@ -48,10 +56,11 @@ export async function createLinks(
           item.url,
           "io"
         );
-        if (!checkIoPlatformURL) urlRay.push({
-          id: item.id,
-          url: ["Please check the URL"],
-        });
+        if (!checkIoPlatformURL)
+          urlRay.push({
+            id: item.id,
+            url: ["Please check the URL"],
+          });
         return;
       }
 
@@ -72,7 +81,7 @@ export async function createLinks(
 
       // .org
       if (item.platformValue === "freecodecamp") {
-        console.log("frrecodecamp")
+        console.log("frrecodecamp");
         const checkOrgPlatformURL = handleUrlCheck(
           item.platformValue,
           item.url,
@@ -87,7 +96,11 @@ export async function createLinks(
       }
 
       // Check if URL is correct pattern (Please check the URL)
-      const checkNewPlatformURL = handleUrlCheck(item.platformValue, item.url, "com")
+      const checkNewPlatformURL = handleUrlCheck(
+        item.platformValue,
+        item.url,
+        "com"
+      );
       if (!checkNewPlatformURL)
         urlRay.push({
           id: item.id,
@@ -97,15 +110,14 @@ export async function createLinks(
 
     if (urlRay.length >= 1) {
       console.log("Error Array: ", urlRay);
-      return { errors: urlRay };
+      return { errors: urlRay, isNoList: false };
     }
 
-
     // Success
-    const result = await addNewLinks(currentLinks)
+    const result = await addNewLinks(currentLinks);
     console.log("addNewLinks success: ", result);
-
-
+    // Reset Error (No sure if needed)
+    return undefined
   } catch (error) {
     console.error(error);
   }

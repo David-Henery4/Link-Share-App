@@ -1,17 +1,24 @@
 "use client";
 import LinkContainer from "./links/LinkContainer";
-import useGlobalContext from "@/context/useGlobalContext";
+// import useGlobalContext from "@/context/useGlobalContext";
 import { createLinks } from "@/db/queries/actions";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchLinks } from "@/query/queryFunctions";
 import { LinksDetails, UpdatedPlatformDetails } from "@/types/types";
+import { useToast } from "@/hooks/use-toast";
 
 const LinksList = () => {
+  const {toast} = useToast()
   const queryClient = useQueryClient();
-  const { currentLinksList } = useGlobalContext();
+  const { data, isSuccess } = useQuery({
+    queryKey: ["links"],
+    queryFn: () => fetchLinks(),
+    // staleTime: Infinity
+  });
+  // const { currentLinksList } = useGlobalContext();
   const [state, linksAction] = useActionState(
-    createLinks.bind(null, currentLinksList),
+    createLinks.bind(null, data),
     {
       errors: [
         {
@@ -19,13 +26,9 @@ const LinksList = () => {
           url: undefined,
         },
       ],
+      isNoList: false
     }
   );
-  const { data, isSuccess } = useQuery({
-    queryKey: ["links"],
-    queryFn: () => fetchLinks(),
-    // staleTime: Infinity
-  });
   console.log("LinksList data", data);
   //
   const handleRemove = (id: string) => {
@@ -71,6 +74,21 @@ const LinksList = () => {
       });
     }
   };
+  useEffect(() => {
+    if (state?.isNoList) {
+      toast({
+        title: "Error",
+        description: "There has been an error saving the links, please try again"
+      })
+    }
+    if (!state){
+      toast({
+        title: "Save Successfull",
+        description:
+          "Your links have been saved!",
+      });
+    }
+  }, [state]);
   //
   return (
     <form

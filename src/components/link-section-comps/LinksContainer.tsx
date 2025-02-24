@@ -31,8 +31,7 @@ const LinksContainer = () => {
   console.log("LinksContainer Data ", data);
   //
   const handleAddNew = () => {
-
-    // if (!currentUserDetails) return;
+    if (!currentUserDetails) return;
     // //
     queryClient.setQueryData(["links"], (links: LinksDetails[]) => {
       return [
@@ -40,7 +39,7 @@ const LinksContainer = () => {
         {
           id: uuidv4(),
           url: "",
-          userId: currentUserDetails?.id,
+          userId: currentUserDetails.id,
           platformId: linkOptions[0].id,
           platformValue: linkOptions[0].value,
           platformLabel: linkOptions[0].label,
@@ -48,7 +47,6 @@ const LinksContainer = () => {
         },
       ];
     });
-    // console.log(queryClient.getQueryData(["links"]));
   }
   //
   return (
