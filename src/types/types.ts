@@ -51,6 +51,7 @@ export interface LinkErrorDetails {
 export interface LinkErrorsList {
   errors: LinkErrorDetails[];
   isNoList: boolean;
+  isSuccess: boolean;
 }
 
 // export interface NoListError {

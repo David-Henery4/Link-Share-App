@@ -32,6 +32,7 @@ export async function createLinks(
       return {
         errors: [{ id: undefined, url: undefined }],
         isNoList: true,
+        isSuccess: false,
       };
     }
 
@@ -112,12 +113,11 @@ export async function createLinks(
 
     if (urlRay.length >= 1) {
       console.log("Error Array: ", urlRay);
-      return { errors: urlRay, isNoList: false };
+      return { errors: urlRay, isNoList: false, isSuccess: false };
     }
 
-
-    if (deletedList.length >= 1){
-      const result = await deleteLinks(deletedList)
+    if (deletedList.length >= 1) {
+      const result = await deleteLinks(deletedList);
       console.log("Deleted Item success: ", result);
     }
 
@@ -125,10 +125,12 @@ export async function createLinks(
     const result = await addNewLinks(currentLinks);
     console.log("addNewLinks success: ", result);
 
-    
-
     // Reset Error (No sure if needed)
-    return undefined;
+    return {
+      errors: [{ id: undefined, url: undefined }],
+      isNoList: false,
+      isSuccess: true,
+    };
   } catch (error) {
     console.error(error);
   }

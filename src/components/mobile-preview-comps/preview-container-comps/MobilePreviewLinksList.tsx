@@ -11,11 +11,10 @@ const MobilePreviewLinksList = () => {
     queryFn: () => fetchLinks(),
     // staleTime: Infinity
   });
-  console.log("Movie: ", data);
   //
   return (
     <div className="w-full flex flex-col justify-start items-center gap-4">
-      {isSuccess &&
+      {isSuccess && data &&
         data
           .map((link) => {
             return (

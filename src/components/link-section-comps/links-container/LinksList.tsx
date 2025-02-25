@@ -13,7 +13,7 @@ interface LinksListProps {
     newValue: string | UpdatedPlatformDetails
   ) => void;
   linksListData: LinksDetails[];
-  deletedList: LinksDetails[] | []
+  deletedList: LinksDetails[] | [];
 }
 
 const LinksList = ({
@@ -33,6 +33,7 @@ const LinksList = ({
         },
       ],
       isNoList: false,
+      isSuccess: false
     }
   );
   //
@@ -44,7 +45,7 @@ const LinksList = ({
           "There has been an error saving the links, please try again",
       });
     }
-    if (!state) {
+    if (state?.isSuccess) {
       toast({
         title: "Save Successfull",
         description: "Your links have been saved!",
