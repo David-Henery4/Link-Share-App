@@ -25,9 +25,6 @@ export async function createLinks(
   _formData: FormData
 ): Promise<undefined | LinkErrorsList> {
   try {
-    // create new type to "LinkErrorsList" and add isListError maybe?
-    console.log("Params is...", deletedList);
-
     if (!currentLinks) {
       return {
         errors: [{ id: undefined, url: undefined }],
@@ -36,7 +33,6 @@ export async function createLinks(
       };
     }
 
-    console.log("called");
     const urlRay: LinkErrorDetails[] = [];
 
     currentLinks.forEach((item) => {
@@ -84,7 +80,6 @@ export async function createLinks(
 
       // .org
       if (item.platformValue === "freecodecamp") {
-        console.log("frrecodecamp");
         const checkOrgPlatformURL = handleUrlCheck(
           item.platformValue,
           item.url,
@@ -112,18 +107,15 @@ export async function createLinks(
     });
 
     if (urlRay.length >= 1) {
-      console.log("Error Array: ", urlRay);
       return { errors: urlRay, isNoList: false, isSuccess: false };
     }
 
     if (deletedList.length >= 1) {
-      const result = await deleteLinks(deletedList);
-      console.log("Deleted Item success: ", result);
+      await deleteLinks(deletedList);
     }
 
     // Success
-    const result = await addNewLinks(currentLinks);
-    console.log("addNewLinks success: ", result);
+    await addNewLinks(currentLinks);
 
     // Reset Error (No sure if needed)
     return {

@@ -19,10 +19,7 @@ export async function createProfileDetails(userId: string, userEmail: string) {
 
 // Add linksList to the database
 export async function addNewLinks(linksList: LinksDetails[]) {
-  console.log(linksList)
-  // Do we need to pass the userID if we are referencing another table?
   try {
-    console.log("addNewLinks called!")
     const response = await db
       .insert(linksTable)
       .values(linksList)
@@ -36,7 +33,6 @@ export async function addNewLinks(linksList: LinksDetails[]) {
           platformValue: sql.raw(`excluded.${linksTable.platformValue.name}`),
         },
       });
-    console.log("Done", response)
     return response
   } catch (error) {
     console.error(error);
@@ -57,7 +53,6 @@ export async function deleteLinks(deleteList: LinksDetails[]){
           )
         );
     })
-    console.log("Done", res);
     return res;
   } catch (error) {
     console.error(error)

@@ -3,7 +3,6 @@ import linkOptions from "@/local-data/linkOptions";
 import { SelectInputProps } from "@/types/types";
 import { MouseEvent, useState } from "react";
 import { ActivePlatformInfo, UpdatedPlatformDetails } from "@/types/types";
-// import useGlobalContext from "@/context/useGlobalContext";
 import DynamicIcon from "@/components/icons/link-icons/DynamicIcon";
 
 interface TempSelect extends SelectInputProps {
@@ -16,7 +15,6 @@ interface TempSelect extends SelectInputProps {
 
 const SelectInput = ({ activePlatform, id, updateLinkValues }: TempSelect) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  // const { updateLinkValues } = useGlobalContext();
   //
   const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -30,7 +28,6 @@ const SelectInput = ({ activePlatform, id, updateLinkValues }: TempSelect) => {
       platformValue: option.value,
       platformColour: option.color,
     };
-    // console.log(option)
     setIsDropdownOpen(!isDropdownOpen);
     updateLinkValues(id, "platform", updatedPlatformValues);
   };

@@ -11,7 +11,7 @@ const SignupForm = () => {
   const [state, signupAction] = useActionState(signup, {
     errors: { email: undefined, password: undefined, neutral: undefined, confirmPassword: undefined },
   });
-  // console.log();
+  //
   const emailError = state?.errors.email ?? null;
   const passwordError = state?.errors.password ?? null;
   const neutralError = state?.errors.neutral ?? null;

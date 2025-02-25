@@ -5,7 +5,7 @@ import { LinksTabIcon, ProfileDetailsHeaderIcon, PreviewEyeIcon } from "../icons
 
 interface TabTypes {
   label: "links" | "profile details" | "preview";
-  path: "/" | "/profile-details" | "/preview";
+  path: "/" | "/profile-details" | `/preview/${string}`;
 }
 
 const Tab = ({ label, path }: TabTypes) => {

@@ -47,7 +47,6 @@ export async function login(
   const results = loginSchema.safeParse(Object.fromEntries(formData));
   //
   if (!results.success) {
-    console.log(results.error.flatten().fieldErrors);
     return {
       errors: results.error.flatten().fieldErrors,
     };
