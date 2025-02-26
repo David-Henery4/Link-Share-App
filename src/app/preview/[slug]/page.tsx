@@ -1,3 +1,4 @@
+export const dynamicParams = false;
 import { PreviewNavbar, PreviewCard } from "@/components/preview-page";
 import { Toaster } from "@/components/ui/toaster";
 import { db } from "@/db";
@@ -27,7 +28,7 @@ const PreviewPage = async ({
   //
   return (
     <main className="w-full min-h-[100svh] max-w-maxBodyWidth mx-auto">
-      {isUser && <PreviewNavbar />}
+      {isUser && isUser === userIdParam && <PreviewNavbar />}
 
       <div className="hidden smMob:block absolute top-0 left-0 w-full h-[357px] rounded-b-[32px] bg-purple -z-10"></div>
 

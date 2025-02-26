@@ -9,6 +9,7 @@ import UploadImageIcon from "./UploadImageIcon";
 import ChevIcon from "./ChevIcon";
 import LinkIcon from "./LinkIcon";
 import ArrowRightIcon from "./ArrowRightIcon";
+import AltLogoLarge from "./AltLogoLarge";
 
 export {
   LinksTabIcon,
@@ -21,5 +22,6 @@ export {
   UploadImageIcon,
   ChevIcon,
   LinkIcon,
-  ArrowRightIcon
+  ArrowRightIcon,
+  AltLogoLarge
 }
