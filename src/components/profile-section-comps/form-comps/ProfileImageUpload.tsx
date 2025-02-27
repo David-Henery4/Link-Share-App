@@ -10,6 +10,7 @@ const ProfileImageUpload = () => {
     handleCheckImageUploadSize,
     isImageDimensionsInvalid,
   } = useGlobalContext();
+  // console.log(currentUpload)
   //
   return (
     <div className="w-full grid gap-4 p-5 bg-lightGrey rounded-xl smallTablet:gap-10 smallTablet:grid-cols-formColumns lgLaptop:gap-20">
@@ -36,6 +37,7 @@ const ProfileImageUpload = () => {
             className="absolute top-0 left-0 w-full h-full opacity-0 z-50 hover:cursor-pointer"
             type="file"
             id="imageFile"
+            name="imageFile"
             accept="image/*"
             onChange={handleCheckImageUploadSize}
           />

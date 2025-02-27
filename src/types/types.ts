@@ -57,3 +57,12 @@ export interface LinkErrorsList {
 // export interface NoListError {
 //   isNoList: boolean;
 // }
+
+export interface ProfileDetails {
+  id: string;
+  userId: string;
+  userEmail: string;
+  firstName: string | null;
+  lastName: string | null;
+  profilePicture: string | null;
+}

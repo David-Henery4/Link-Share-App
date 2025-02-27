@@ -3,7 +3,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { fetchLinks } from "@/query/queryFunctions";
+import { fetchLinks, fetchProfileDetails } from "@/query/queryFunctions";
 import { PropsWithChildren } from "react";
 
 const HydrateComps = async ({ children }: PropsWithChildren) => {
@@ -12,6 +12,11 @@ const HydrateComps = async ({ children }: PropsWithChildren) => {
     queryKey: ["links"],
     queryFn: fetchLinks,
   });
+  //
+  await queryClient.prefetchQuery({
+    queryKey: ["profile"],
+    queryFn: fetchProfileDetails,
+  })
   //
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

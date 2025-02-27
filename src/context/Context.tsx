@@ -96,6 +96,7 @@ const AppProvider = (props: PropsWithChildren) => {
   const handleCheckImageUploadSize = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget?.files;
     if (!file) return;
+    console.log(file[0])
     //
     const img = new Image();
     img.src = window.URL.createObjectURL(file[0]);
@@ -108,7 +109,9 @@ const AppProvider = (props: PropsWithChildren) => {
       setIsImageDimensionsInvalid(false);
       window.URL.revokeObjectURL(img.src);
       handleSetFileState(file);
+
     };
+
   };
 
   //// ✅
