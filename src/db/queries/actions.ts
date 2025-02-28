@@ -7,8 +7,16 @@ import {
 } from "@/types/types";
 import { addNewLinks, deleteLinks, updateProfileDetails } from "./queries";
 import { z } from "zod";
+import {v2 as cloudinary} from "cloudinary"
 // import { createClient } from "@/utils/server";
 // import { db } from "..";
+
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
 
 const handleUrlCheck = (platformValue: string, url: string, ext: string) => {
   if (platformValue === "twitter") {
@@ -172,7 +180,27 @@ export async function handleProfileDetailsUpdate(
   const firstName = formData.get("firstName") as string;
   const lastName = formData.get("lastName") as string;
   const userEmail = formData.get("userEmail") as string;
-  // const imageFile = formData.get("imageFile");
+  const imageFile = formData.get("imageFile") as File | null;
+
+
+  let savedImageUrl: string | null = null;
+
+  if (imageFile){
+    const arrayBuffer = await imageFile.arrayBuffer()
+    const buffer = new Uint8Array(arrayBuffer)
+    savedImageUrl = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream({}, function (error, result) {
+        if (error){
+          reject(error)
+          return
+        } else {
+          resolve(result?.secure_url || null);
+        }
+      }).end(buffer)
+    })
+  }
+
+  console.log(savedImageUrl)
 
   // Send image to cloudinary, get url back & save url in with profile details
 
@@ -180,7 +208,7 @@ export async function handleProfileDetailsUpdate(
     firstName,
     lastName,
     userEmail,
-    imageFile: null,
+    profilePicture: savedImageUrl ? savedImageUrl : null,
   };
 
   const { isSuccess, errorMsg, successMsg } = await updateProfileDetails(
@@ -188,26 +216,21 @@ export async function handleProfileDetailsUpdate(
   );
 
   if (!isSuccess) {
-    console.log("Success?...", isSuccess, errorMsg);
     return {
       errors: {},
       success: { errorMsg, isSuccess, successMsg },
     };
   }
 
-  console.log("Success?...", isSuccess, successMsg);
-
-  if (isSuccess){
+  if (isSuccess) {
     return {
       success: {
         errorMsg,
         isSuccess,
-        successMsg
+        successMsg,
       },
-      errors: {
-        
-      }
-    }
+      errors: {},
+    };
   }
 
   return undefined;

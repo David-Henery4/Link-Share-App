@@ -47,26 +47,36 @@ const ProfileForm = () => {
       }
     );
   };
+
+  console.log("Dta: ", data)
   // EMAIL HAS TO BE UPDATED IN AUTH & PROFILE DETAILS
   //
   useEffect(() => {
-    if (profileState?.success && profileState.success.isSuccess){
+    if (
+      profileState?.success &&
+      profileState.success.isSuccess &&
+      profileState.success.successMsg
+    ) {
       toast({
         title: "Saved!",
-        description: profileState.success.successMsg
-      })
+        description: profileState.success.successMsg,
+      });
     }
-    if (profileState?.success && !profileState.success.isSuccess){
+    if (
+      profileState?.success &&
+      !profileState.success.isSuccess &&
+      profileState.success.errorMsg
+    ) {
       toast({
         title: "Error!",
-        description: profileState.success.errorMsg
-      })
+        description: profileState.success.errorMsg,
+      });
     }
   }, [profileState]);
   //
   return (
     <form id="profile-details" action={profileAction} className="w-full mt-10">
-      <ProfileImageUpload />
+      <ProfileImageUpload savedImageUrl={data?.profilePicture} />
       <div className="w-full mt-6 grid gap-3 p-5 bg-lightGrey rounded-xl">
         {isSuccess && data && (
           <>

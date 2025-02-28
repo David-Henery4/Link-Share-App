@@ -24,7 +24,7 @@ interface NewProfileDetails {
   firstName: string;
   lastName: string;
   userEmail: string;
-  imageFile: string | null; // File | null
+  profilePicture: string | null; // File | null
 }
 
 // Update Profile Details
@@ -51,7 +51,7 @@ export async function updateProfileDetails(details: NewProfileDetails) {
           firstName: details.firstName,
           lastName: details.lastName,
           userEmail: user.new_email,
-          // profilePicture: details.imageFile // Will be url
+          profilePicture: details.profilePicture // Will be url
         })
         .where(eq(profileDetailsTable.userId, user?.id));
         //

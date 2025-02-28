@@ -4,13 +4,16 @@ import { UploadImageIcon } from "../../icons";
 import ProfileImagePreview from "./image-comp/ProfileImagePreview";
 import useGlobalContext from "@/context/useGlobalContext";
 
-const ProfileImageUpload = () => {
+const ProfileImageUpload = ({
+  savedImageUrl,
+}: {
+  savedImageUrl: string | null | undefined;
+}) => {
   const {
     currentUpload,
     handleCheckImageUploadSize,
     isImageDimensionsInvalid,
   } = useGlobalContext();
-  // console.log(currentUpload)
   //
   return (
     <div className="w-full grid gap-4 p-5 bg-lightGrey rounded-xl smallTablet:gap-10 smallTablet:grid-cols-formColumns lgLaptop:gap-20">
@@ -23,15 +26,22 @@ const ProfileImageUpload = () => {
       <div className="flex flex-col justify-start items-start gap-6 tablet:flex-row tablet:items-center">
         <div
           className={`text-center relative px-[38px] py-[60px] rounded-xl bg-purpleLight font-semibold inline-flex flex-col justify-center items-center overflow-hidden hover:cursor-pointer ${
-            currentUpload ? "text-white" : "text-purple"
+            currentUpload || savedImageUrl ? "text-white" : "text-purple"
           }`}
         >
-          {currentUpload && (
+          {currentUpload ? (
             <ProfileImagePreview currentUpload={currentUpload} />
+          ) : (
+            !currentUpload &&
+            savedImageUrl && (
+              <ProfileImagePreview currentUpload={savedImageUrl} />
+            )
           )}
           <span className="relative flex flex-col justify-center items-center z-20">
-            <UploadImageIcon colour={currentUpload ? "#ffffff" : "#633CFF"} /> +
-            Upload Image
+            <UploadImageIcon
+              colour={currentUpload || savedImageUrl ? "#ffffff" : "#633CFF"}
+            />{" "}
+            + Upload Image
           </span>
           <input
             className="absolute top-0 left-0 w-full h-full opacity-0 z-50 hover:cursor-pointer"
