@@ -1,15 +1,20 @@
 "use client"
-import useGlobalContext from "@/context/useGlobalContext";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProfileDetails } from "@/query/queryFunctions";
 
 const MockupNames = () => {
-  const {profileDetails} = useGlobalContext()
+  const { data: profileData } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => fetchProfileDetails(),
+    // staleTime: Infinity
+  });
   //
   return (
     <>
-      {(profileDetails?.firstName || profileDetails?.lastName) || 
+      {(profileData?.firstName || profileData?.lastName) || 
         <rect width="160" height="16" x="73.5" y="185" fill="#EEE" rx="8" />
       }
-      {!profileDetails.email && (
+      {!profileData?.userEmail && (
         <rect width="72" height="8" x="117.5" y="214" fill="#EEE" rx="4" />
       )}
     </>

@@ -19,36 +19,40 @@ const MobilePreviewHeader = ({
 }) => {
   const { currentUpload } = useGlobalContext();
   //
+  // NEED TO HANDLE THE CONDITION OF NO IMAGE (FROM PREVIEW OR DATABASE) & NO NAMES, RENDER A CIRCLE
+  // Might already be handled by the icon component: "MockupImage"
+  //
   return (
     <div className="flex flex-col justify-start items-center gap-[19px] text-center">
-      {profileData?.firstName && profileData?.lastName && (
-        <div className="w-24 h-24 rounded-full overflow-hidden grid place-items-center bg-purple">
-          {currentUpload ? (
-            <Image
-              src={currentUpload}
-              alt="Profile Avatar"
-              width={275}
-              height={275}
-              className="w-full h-full object-cover object-center"
-            />
-          ) : !currentUpload && profileData?.profilePicture ? (
-            <Image
-              src={profileData?.profilePicture}
-              alt="Profile Avatar"
-              width={275}
-              height={275}
-              className="w-full h-full object-cover object-center"
-            />
-          ) : (
+      <div className="w-24 h-24 rounded-full overflow-hidden grid place-items-center bg-purple">
+        {currentUpload ? (
+          <Image
+            src={currentUpload}
+            alt="Profile Avatar"
+            width={275}
+            height={275}
+            className="w-full h-full object-cover object-center"
+          />
+        ) : !currentUpload && profileData?.profilePicture ? (
+          <Image
+            src={profileData?.profilePicture}
+            alt="Profile Avatar"
+            width={275}
+            height={275}
+            className="w-full h-full object-cover object-center"
+          />
+        ) : (
+          profileData?.firstName &&
+          profileData?.lastName && (
             <BaseText size="medium" className="text-white font-bold text-xl ">
-              {`${profileData.firstName.slice(
+              {`${profileData?.firstName.slice(
                 0,
                 1
-              )}.${profileData.lastName.slice(0, 1)}`}
+              )}.${profileData?.lastName.slice(0, 1)}`}
             </BaseText>
-          )}
-        </div>
-      )}
+          )
+        )}
+      </div>
 
       <div className="w-full">
         <div className="min-h-7">
