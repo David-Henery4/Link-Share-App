@@ -3,14 +3,11 @@ import {
   LinksDetails,
   LinkErrorsList,
   LinkErrorDetails,
-  // ProfileDetails,
 } from "@/types/types";
 import { addNewLinks, deleteLinks, updateProfileDetails } from "./queries";
 import { z } from "zod";
 import { v2 as cloudinary } from "cloudinary";
 import { createClient } from "@/utils/server";
-// import { createClient } from "@/utils/server";
-// import { db } from "..";
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -249,4 +246,3 @@ export async function handleProfileDetailsUpdate(
   return undefined;
 }
 
-// // EMAIL HAS TO BE UPDATED IN AUTH & PROFILE DETAILS

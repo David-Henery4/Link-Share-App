@@ -1,5 +1,4 @@
 import { LinkIcon } from "@/components/icons";
-// import useGlobalContext from "@/context/useGlobalContext";
 import { BaseText } from "@/components/reusable/text";
 import { LinkErrorDetails, UpdatedPlatformDetails } from "@/types/types";
 
@@ -15,8 +14,6 @@ interface UrlInputProps {
 }
 
 const UrlInput = ({ url, id, errorValues, updateLinkValues }: UrlInputProps) => {
-  // const { updateLinkValues } = useGlobalContext();
-
   //
   return (
     <div className="w-full mt-3">

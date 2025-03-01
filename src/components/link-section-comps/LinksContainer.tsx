@@ -3,7 +3,6 @@ import Button from "../reusable/Button";
 import LinksList from "./links-container/LinksList";
 import EmptyContainer from "./links-container/EmptyContainer";
 import linkOptions from "@/local-data/linkOptions";
-import useGlobalContext from "@/context/useGlobalContext";
 //
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchLinks } from "@/query/queryFunctions";
@@ -11,13 +10,12 @@ import { LinksDetails, UpdatedPlatformDetails } from "@/types/types";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 
-const LinksContainer = () => {
+const LinksContainer = ({currentUserId}: {currentUserId: string | undefined}) => {
   // list of linkIds to be deleted when save button is clicked
   const [linksToBeDeleted, setLinksToBeDeleted] = useState<LinksDetails[] | []>(
     []
   );
   //
-  const { currentUserDetails } = useGlobalContext();
   const queryClient = useQueryClient();
   //
   const { data, isSuccess } = useQuery({
@@ -27,7 +25,7 @@ const LinksContainer = () => {
   });
   //
   const handleAddNew = () => {
-    if (!currentUserDetails) return;
+    if (!currentUserId) return;
     // //
     queryClient.setQueryData(["links"], (links: LinksDetails[]) => {
       return [
@@ -35,7 +33,7 @@ const LinksContainer = () => {
         {
           id: uuidv4(),
           url: "",
-          userId: currentUserDetails.id,
+          userId: currentUserId,
           platformId: linkOptions[0].id,
           platformValue: linkOptions[0].value,
           platformLabel: linkOptions[0].label,
