@@ -186,7 +186,9 @@ export async function handleProfileDetailsUpdate(
   // Send image to cloudinary, get url back
   let savedImageUrl: string | null = null;
 
-  if (imageFile) {
+  console.log("Saved image url", savedImageUrl);
+
+  if (imageFile && imageFile.size > 0) {
     const supabase = await createClient();
     const {
       data: { user },
@@ -200,6 +202,7 @@ export async function handleProfileDetailsUpdate(
           { public_id: `${user.id}--avatar`, overwrite: true, invalidate:true },
           function (error, result) {
             if (error) {
+              console.log("Error #1: ", error)
               reject(error);
               return;
             } else {
@@ -211,14 +214,14 @@ export async function handleProfileDetailsUpdate(
     });
   }
 
-  console.log(savedImageUrl);
+  console.log("Saved image url",savedImageUrl);
 
   // Save url in with profile details
   const newDetails = {
     firstName,
     lastName,
     userEmail,
-    profilePicture: savedImageUrl ? savedImageUrl : null,
+    profilePicture: savedImageUrl ? savedImageUrl : undefined,
   };
 
   const { isSuccess, errorMsg, successMsg } = await updateProfileDetails(

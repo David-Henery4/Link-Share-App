@@ -24,7 +24,7 @@ interface NewProfileDetails {
   firstName: string;
   lastName: string;
   userEmail: string;
-  profilePicture: string | null; // File | null
+  profilePicture: string | undefined; // File | null
 }
 
 // Update Profile Details
