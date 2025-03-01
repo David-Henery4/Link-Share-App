@@ -19,12 +19,13 @@ const MobilePreviewHeader = ({
 }) => {
   const { currentUpload } = useGlobalContext();
   //
-  // NEED TO HANDLE THE CONDITION OF NO IMAGE (FROM PREVIEW OR DATABASE) & NO NAMES, RENDER A CIRCLE
-  // Might already be handled by the icon component: "MockupImage"
-  //
   return (
     <div className="flex flex-col justify-start items-center gap-[19px] text-center">
-      <div className="w-24 h-24 rounded-full overflow-hidden grid place-items-center bg-purple">
+      <div
+        className={`w-24 h-24 rounded-full overflow-hidden grid place-items-center ${
+          profileData?.firstName && profileData?.lastName && "bg-purple"
+        }`}
+      >
         {currentUpload ? (
           <Image
             src={currentUpload}

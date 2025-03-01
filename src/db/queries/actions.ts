@@ -7,7 +7,8 @@ import {
 } from "@/types/types";
 import { addNewLinks, deleteLinks, updateProfileDetails } from "./queries";
 import { z } from "zod";
-import {v2 as cloudinary} from "cloudinary"
+import { v2 as cloudinary } from "cloudinary";
+import { createClient } from "@/utils/server";
 // import { createClient } from "@/utils/server";
 // import { db } from "..";
 
@@ -182,28 +183,37 @@ export async function handleProfileDetailsUpdate(
   const userEmail = formData.get("userEmail") as string;
   const imageFile = formData.get("imageFile") as File | null;
 
-
+  // Send image to cloudinary, get url back
   let savedImageUrl: string | null = null;
 
-  if (imageFile){
-    const arrayBuffer = await imageFile.arrayBuffer()
-    const buffer = new Uint8Array(arrayBuffer)
+  if (imageFile) {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+    const arrayBuffer = await imageFile.arrayBuffer();
+    const buffer = new Uint8Array(arrayBuffer);
     savedImageUrl = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload_stream({}, function (error, result) {
-        if (error){
-          reject(error)
-          return
-        } else {
-          resolve(result?.secure_url || null);
-        }
-      }).end(buffer)
-    })
+      cloudinary.uploader
+        .upload_stream(
+          { public_id: `${user.id}--avatar`, overwrite: true, invalidate:true },
+          function (error, result) {
+            if (error) {
+              reject(error);
+              return;
+            } else {
+              resolve(result?.secure_url || null);
+            }
+          }
+        )
+        .end(buffer);
+    });
   }
 
-  console.log(savedImageUrl)
+  console.log(savedImageUrl);
 
-  // Send image to cloudinary, get url back & save url in with profile details
-
+  // Save url in with profile details
   const newDetails = {
     firstName,
     lastName,
