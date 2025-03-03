@@ -1,6 +1,6 @@
 "use client";
 import Button from "../reusable/Button";
-import LinksList from "./links-container/LinksList";
+// import LinksList from "./links-container/LinksList";
 import EmptyContainer from "./links-container/EmptyContainer";
 import linkOptions from "@/local-data/linkOptions";
 //
@@ -9,6 +9,7 @@ import { fetchLinks } from "@/query/queryFunctions";
 import { LinksDetails, UpdatedPlatformDetails } from "@/types/types";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
+import SortableContainer from "./SortableContainer";
 
 const LinksContainer = ({currentUserId}: {currentUserId: string | undefined}) => {
   // list of linkIds to be deleted when save button is clicked
@@ -108,7 +109,7 @@ const LinksContainer = ({currentUserId}: {currentUserId: string | undefined}) =>
       {!isSuccess || !data || data?.length <= 0 ? (
         <EmptyContainer />
       ) : (
-        <LinksList
+        <SortableContainer
           linksListData={data}
           deletedList={linksToBeDeleted}
           handleRemove={handleRemove}
