@@ -1,14 +1,14 @@
 "use client";
 import Button from "../reusable/Button";
 // import LinksList from "./links-container/LinksList";
-import EmptyContainer from "./links-container/EmptyContainer";
+import EmptyContainer from "./EmptyContainer";
 import linkOptions from "@/local-data/linkOptions";
 //
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchLinks } from "@/query/queryFunctions";
 import { LinksDetails, UpdatedPlatformDetails } from "@/types/types";
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SortableContainer from "./SortableContainer";
 
 const LinksContainer = ({currentUserId}: {currentUserId: string | undefined}) => {
@@ -24,9 +24,6 @@ const LinksContainer = ({currentUserId}: {currentUserId: string | undefined}) =>
     queryFn: () => fetchLinks(),
     // staleTime: Infinity,
   });
-  useEffect(() => {
-    console.log(data)
-  }, [ data])
   //
   const handleAddNew = () => {
     if (!currentUserId) return;

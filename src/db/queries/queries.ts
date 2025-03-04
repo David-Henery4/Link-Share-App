@@ -75,7 +75,6 @@ export async function updateProfileDetails(details: NewProfileDetails) {
 // Add linksList to the database
 export async function addNewLinks(linksList: LinksDetails[]) {
   try {
-    console.log("Links: ", linksList)
     const response = await db
       .insert(linksTable)
       .values(linksList)

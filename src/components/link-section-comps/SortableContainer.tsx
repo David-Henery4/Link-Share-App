@@ -109,7 +109,7 @@ const SortableContainer = ({
           return { ...item, orderNumber: i + 1 };
         });
 
-        handleUpdateOrderNumber(newArrayWithNewOrderNumber)
+        handleUpdateOrderNumber(newArrayWithNewOrderNumber);
 
         return newArrayWithNewOrderNumber;
       });
@@ -141,7 +141,7 @@ const SortableContainer = ({
         description: "Your links have been saved!",
       });
     }
-  }, [state]);
+  }, [state]); // eslint-disable-line react-hooks/exhaustive-deps
   //
   return (
     <DndContext

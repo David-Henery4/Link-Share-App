@@ -47,9 +47,6 @@ const ProfileForm = () => {
       }
     );
   };
-
-  console.log("Dta: ", data)
-  // EMAIL HAS TO BE UPDATED IN AUTH & PROFILE DETAILS
   //
   useEffect(() => {
     if (
@@ -72,7 +69,7 @@ const ProfileForm = () => {
         description: profileState.success.errorMsg,
       });
     }
-  }, [profileState]);
+  }, [profileState]); // eslint-disable-line react-hooks/exhaustive-deps
   //
   return (
     <form id="profile-details" action={profileAction} className="w-full mt-10">

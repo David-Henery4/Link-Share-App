@@ -45,7 +45,6 @@ const AppProvider = (props: PropsWithChildren) => {
   const handleCheckImageUploadSize = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget?.files;
     if (!file) return;
-    console.log(file[0]);
     //
     const img = new Image();
     img.src = window.URL.createObjectURL(file[0]);
@@ -72,7 +71,7 @@ const AppProvider = (props: PropsWithChildren) => {
   //
   useEffect(() => {
     handleGetUserData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   //
   return (
     <AppContext.Provider
