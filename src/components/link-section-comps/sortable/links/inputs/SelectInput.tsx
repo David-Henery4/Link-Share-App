@@ -7,13 +7,14 @@ import DynamicIcon from "@/components/icons/link-icons/DynamicIcon";
 
 interface TempSelect extends SelectInputProps {
   updateLinkValues: (
-      linkId: string,
-      valueName: "platform" | "url",
-      newValue: string | UpdatedPlatformDetails
-    ) => void;
+    linkId: string,
+    valueName: "platform" | "url",
+    newValue: string | UpdatedPlatformDetails
+  ) => void;
+  orderNumber: number;
 }
 
-const SelectInput = ({ activePlatform, id, updateLinkValues }: TempSelect) => {
+const SelectInput = ({ activePlatform, id, updateLinkValues, orderNumber }: TempSelect) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   //
   const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -75,11 +76,11 @@ const SelectInput = ({ activePlatform, id, updateLinkValues }: TempSelect) => {
                 className="w-full h-full absolute top-0 left-0 opacity-0 hover:cursor-pointer"
                 type="radio"
                 name={`platform-${id}`}
-                id={`${option.value}-${option.id}`}
+                id={`${option.value}-${option.id}--${orderNumber}`}
                 value={option.value}
               />
               <label
-                htmlFor={`${option.value}-${option.id}`}
+                htmlFor={`${option.value}-${option.id}--${orderNumber}`}
                 className="pointer-events-none group-hover:text-purple"
               >
                 {option?.label}

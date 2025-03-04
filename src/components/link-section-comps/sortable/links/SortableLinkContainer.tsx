@@ -83,6 +83,7 @@ const SortableLinkContainer = ({
             label: platformLabel,
             value: platformValue,
           }}
+          orderNumber={orderNumber}
           id={id}
         />
 
