@@ -8,7 +8,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchLinks } from "@/query/queryFunctions";
 import { LinksDetails, UpdatedPlatformDetails } from "@/types/types";
 import { v4 as uuidv4 } from "uuid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SortableContainer from "./SortableContainer";
 
 const LinksContainer = ({currentUserId}: {currentUserId: string | undefined}) => {
@@ -24,6 +24,9 @@ const LinksContainer = ({currentUserId}: {currentUserId: string | undefined}) =>
     queryFn: () => fetchLinks(),
     // staleTime: Infinity,
   });
+  useEffect(() => {
+    console.log(data)
+  }, [ data])
   //
   const handleAddNew = () => {
     if (!currentUserId) return;
@@ -35,6 +38,7 @@ const LinksContainer = ({currentUserId}: {currentUserId: string | undefined}) =>
           id: uuidv4(),
           url: "",
           userId: currentUserId,
+          orderNumber: links.length + 1,
           platformId: linkOptions[0].id,
           platformValue: linkOptions[0].value,
           platformLabel: linkOptions[0].label,

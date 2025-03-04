@@ -75,6 +75,7 @@ export async function updateProfileDetails(details: NewProfileDetails) {
 // Add linksList to the database
 export async function addNewLinks(linksList: LinksDetails[]) {
   try {
+    console.log("Links: ", linksList)
     const response = await db
       .insert(linksTable)
       .values(linksList)
@@ -86,6 +87,7 @@ export async function addNewLinks(linksList: LinksDetails[]) {
           platformId: sql.raw(`excluded.${linksTable.platformId.name}`),
           platformLabel: sql.raw(`excluded.${linksTable.platformLabel.name}`),
           platformValue: sql.raw(`excluded.${linksTable.platformValue.name}`),
+          orderNumber: sql.raw(`excluded.${linksTable.orderNumber.name}`),
         },
       });
     return response;

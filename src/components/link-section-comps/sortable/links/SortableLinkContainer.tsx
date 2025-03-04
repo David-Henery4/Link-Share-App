@@ -23,7 +23,7 @@ interface LinkContainerProps extends DndAndListTypes {
 }
 
 const SortableLinkContainer = ({
-  linkIndex,
+  // linkIndex,
   url,
   id,
   // platform,
@@ -39,6 +39,7 @@ const SortableLinkContainer = ({
   setActivatorNodeRef,
   setNodeRef,
   style,
+  orderNumber
   //
 }: LinkContainerProps) => {
   //
@@ -57,7 +58,7 @@ const SortableLinkContainer = ({
           >
             <DragAndDropIcon />
           </div>
-          <h2>Link {`#${linkIndex + 1}`}</h2>
+          <h2>Link {`#${orderNumber}`}</h2>
         </div>
 
         <div>

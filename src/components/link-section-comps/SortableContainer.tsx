@@ -23,6 +23,7 @@ import {
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import SortableLink from "./sortable/SortableLink";
 import SortableLinkContainer from "./sortable/links/SortableLinkContainer";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface SortableContainerProps {
   handleRemove: (id: string) => void;
@@ -47,12 +48,15 @@ export interface DnDTypes {
 
 type ActiveIdState = UniqueIdentifier | null;
 
+// TRYING TO SORT OUT THE "SORT" FUNCTIONALITY!!!!!!
+
 const SortableContainer = ({
   linksListData,
   deletedList,
   handleRemove,
-  updateLinkValues
+  updateLinkValues,
 }: SortableContainerProps) => {
+  const queryClient = useQueryClient();
   const [activeId, setActiveId] = useState<ActiveIdState>(null);
   const [activeItem, setActiveItem] = useState<LinksDetails | null>(null); // might change & might change to empty object
   const [items, setItems] = useState<LinksDetails[]>(linksListData);
@@ -98,18 +102,24 @@ const SortableContainer = ({
           .indexOf(String(over.id));
 
         const newArray = arrayMove(items, testIndexOld, testIndexNew);
-        return newArray;
+        // return newArray;
 
-        // //Check for order number update
-        // const newArrayWithNewOrderNumber = newArray.map((item, i, _) => {
-        //   return { ...item, orderNumber: i };
-        // });
+        //Check for order number update
+        const newArrayWithNewOrderNumber = newArray.map((item, i, _) => {
+          return { ...item, orderNumber: i + 1 };
+        });
 
-        // return newArrayWithNewOrderNumber;
+        handleUpdateOrderNumber(newArrayWithNewOrderNumber)
+
+        return newArrayWithNewOrderNumber;
       });
     }
     //
     setActiveId(null);
+  };
+  //
+  const handleUpdateOrderNumber = (newArray: LinksDetails[]) => {
+    queryClient.setQueryData(["links"], () => newArray);
   };
   //
   useEffect(() => {
@@ -146,25 +156,27 @@ const SortableContainer = ({
           className="w-full my-6 flex flex-col justify-center items-center gap-6"
           action={linksAction}
         >
-          {items.map((linkInformation, i) => {
-            let errorValues;
-            if (state?.errors) {
-              errorValues = state.errors.find(
-                (err) => err.id === linkInformation.id
+          {items
+            .sort((a, b) => a.orderNumber - b.orderNumber)
+            .map((linkInformation, i) => {
+              let errorValues;
+              if (state?.errors) {
+                errorValues = state.errors.find(
+                  (err) => err.id === linkInformation.id
+                );
+              }
+              return (
+                <SortableLink
+                  key={linkInformation.id}
+                  setItems={setItems}
+                  linkIndex={i}
+                  errorValues={errorValues}
+                  handleRemove={handleRemove}
+                  updateLinkValues={updateLinkValues}
+                  {...linkInformation}
+                />
               );
-            }
-            return (
-              <SortableLink
-                key={linkInformation.id}
-                setItems={setItems}
-                linkIndex={i}
-                errorValues={errorValues}
-                handleRemove={handleRemove}
-                updateLinkValues={updateLinkValues}
-                {...linkInformation}
-              />
-            );
-          })}
+            })}
         </form>
       </SortableContext>
       <DragOverlay>

@@ -28,6 +28,7 @@ export interface LinksDetails {
   id: string;
   userId: string;
   url: string;
+  orderNumber: number
   platformId: string;
   platformLabel: string;
   platformValue: string;

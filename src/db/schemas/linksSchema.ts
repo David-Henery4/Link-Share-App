@@ -1,4 +1,4 @@
-import { pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, integer } from "drizzle-orm/pg-core";
 import { profileDetailsTable } from "./profileDetailsSchema";
 
 export const linksTable = pgTable("links_table", {
@@ -7,6 +7,7 @@ export const linksTable = pgTable("links_table", {
     .references(() => profileDetailsTable.userId)
     .notNull(),
   url: text("url").notNull(),
+  orderNumber: integer("order_number").notNull(),
   platformId: uuid("platform_id").notNull(),
   platformLabel: text("platform_label").notNull(),
   platformValue: text("platform_value").notNull(),
