@@ -10,16 +10,6 @@ import { v2 as cloudinary } from "cloudinary";
 import { createClient } from "@/utils/server";
 
 
-console.log("Cloudinary Env Vars:", {
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-  databaseURL: process.env.DATABASE_URL,
-  supabaseURL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-  supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-});
-console.log("Cloudinary: ",cloudinary);
-
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
