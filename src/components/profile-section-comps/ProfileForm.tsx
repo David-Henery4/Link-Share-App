@@ -72,7 +72,7 @@ const ProfileForm = () => {
   }, [profileState]); // eslint-disable-line react-hooks/exhaustive-deps
   //
   return (
-    <form id="profile-details" action={profileAction} className="w-full mt-10">
+    <form id="profile-details-form" action={profileAction} className="w-full mt-10">
       <ProfileImageUpload savedImageUrl={data?.profilePicture} />
       <div className="w-full mt-6 grid gap-3 p-5 bg-lightGrey rounded-xl">
         {isSuccess && data && (

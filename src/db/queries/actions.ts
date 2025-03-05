@@ -9,6 +9,17 @@ import { z } from "zod";
 import { v2 as cloudinary } from "cloudinary";
 import { createClient } from "@/utils/server";
 
+
+console.log("Cloudinary Env Vars:", {
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  databaseURL: process.env.DATABASE_URL,
+  supabaseURL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+  supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+});
+console.log("Cloudinary: ",cloudinary);
+
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
@@ -191,21 +202,30 @@ export async function handleProfileDetailsUpdate(
     if (!user) return;
     const arrayBuffer = await imageFile.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
-    savedImageUrl = await new Promise((resolve, reject) => {
+    const res = await new Promise((resolve) => {
       cloudinary.uploader
         .upload_stream(
-          { public_id: `${user.id}--avatar`, overwrite: true, invalidate:true },
+          {
+            public_id: `${user.id}--avatar`,
+            overwrite: true,
+            invalidate: true,
+          },
           function (error, result) {
             if (error) {
-              reject(error);
+              // const { http_code, message, name } = error;
+              console.error("Cloudinary Error:", error);
+              // Instead of rejecting, resolve with an error object
+              resolve("ERROR");
               return;
-            } else {
-              resolve(result?.secure_url || null);
             }
+
+            resolve(result?.secure_url || null);
           }
         )
         .end(buffer);
     });
+    if (res === "ERROR") return
+    savedImageUrl = res as string
   }
 
   // Save url in with profile details

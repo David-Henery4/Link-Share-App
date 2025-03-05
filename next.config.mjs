@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // experimental: {
+  //   externalDir: true, // Helps keep Cloudinary available
+  // },
+  webpack: (config) => {
+    config.externals = [...(config.externals || []), "cloudinary"];
+    return config;
+  },
   images: {
     remotePatterns: [
       {
