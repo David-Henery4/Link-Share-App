@@ -1,14 +1,8 @@
 import { cva } from "class-variance-authority";
 import { cn } from "@/libs/utils";
-import { ButtonHTMLAttributes } from "react";
 import Link from "next/link";
+import { ButtonTypes } from "@/types/types";
 
-interface ButtonTypes extends ButtonHTMLAttributes<HTMLButtonElement> {
-  buttonType: "primary" | "secondary" | "third";
-  size?: "large" | "secondarySmall";
-  isLink?: boolean;
-  href?: string;
-}
 
 const Button = ({
   buttonType,

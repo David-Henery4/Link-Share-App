@@ -1,20 +1,19 @@
 import { ChevIcon } from "@/components/icons";
 import linkOptions from "@/local-data/linkOptions";
-import { SelectInputProps } from "@/types/types";
+import { 
+  TempSelect } from "@/types/types";
 import { MouseEvent, useState } from "react";
-import { ActivePlatformInfo, UpdatedPlatformDetails } from "@/types/types";
+import {
+  ActivePlatformInfo,
+} from "@/types/types";
 import DynamicIcon from "@/components/icons/link-icons/DynamicIcon";
 
-interface TempSelect extends SelectInputProps {
-  updateLinkValues: (
-    linkId: string,
-    valueName: "platform" | "url",
-    newValue: string | UpdatedPlatformDetails
-  ) => void;
-  orderNumber: number;
-}
-
-const SelectInput = ({ activePlatform, id, updateLinkValues, orderNumber }: TempSelect) => {
+const SelectInput = ({
+  activePlatform,
+  id,
+  updateLinkValues,
+  orderNumber,
+}: TempSelect) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   //
   const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {

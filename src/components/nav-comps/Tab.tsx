@@ -2,11 +2,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LinksTabIcon, ProfileDetailsHeaderIcon, PreviewEyeIcon } from "../icons";
+import { TabTypes } from "@/types/types";
 
-interface TabTypes {
-  label: "links" | "profile details" | "preview";
-  path: "/" | "/profile-details" | `/preview/${string}`;
-}
 
 const Tab = ({ label, path }: TabTypes) => {
   const pathname = usePathname()

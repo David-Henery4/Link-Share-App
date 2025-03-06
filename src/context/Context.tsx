@@ -10,10 +10,6 @@ interface AppContextType {
   isImageDimensionsInvalid: boolean;
 }
 
-// currentUpload,
-// handleCheckImageUploadSize,
-// isImageDimensionsInvalid,
-
 const AppContext = createContext<AppContextType | null>(null);
 
 const AppProvider = (props: PropsWithChildren) => {

@@ -4,14 +4,6 @@ import { z } from "zod";
 import { createClient } from "@/utils/server";
 import { createProfileDetails } from "@/db/queries/queries";
 
-// const testUser = {
-//   id: "1",
-//   email: "contact@demo.io",
-//   password: "1234D5E6M7O8",
-//   firstName: Tristan,
-//   lastName: Moore
-// };
-
 export const demoLogin = async () => {
   const email = process.env.NEXT_PUBLIC_DEMO_EMAIL;
   const password = process.env.DEMO_PASSWORD;

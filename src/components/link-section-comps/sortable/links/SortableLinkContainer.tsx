@@ -3,24 +3,9 @@ import DragAndDropIcon from "../../../icons/DragAndDropIcon";
 import Button from "../../../reusable/Button";
 import { SelectInput, UrlInput } from "../links/inputs";
 import {
-  LinksDetails,
-  LinkErrorDetails,
-  UpdatedPlatformDetails,
+  LinkContainerProps,
 } from "@/types/types";
-import { DnDTypes } from "../../SortableContainer";
 
-type DndAndListTypes = LinksDetails & DnDTypes;
-
-interface LinkContainerProps extends DndAndListTypes {
-  linkIndex: number;
-  errorValues?: LinkErrorDetails;
-  handleRemove: (id: string) => void;
-  updateLinkValues: (
-    linkId: string,
-    valueName: "platform" | "url",
-    newValue: string | UpdatedPlatformDetails
-  ) => void;
-}
 
 const SortableLinkContainer = ({
   // linkIndex,
@@ -39,9 +24,9 @@ const SortableLinkContainer = ({
   setActivatorNodeRef,
   setNodeRef,
   style,
-  orderNumber
-  //
-}: LinkContainerProps) => {
+  orderNumber,
+}: //
+LinkContainerProps) => {
   //
   return (
     <div

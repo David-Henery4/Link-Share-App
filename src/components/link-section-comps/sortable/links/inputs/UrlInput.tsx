@@ -1,19 +1,15 @@
 import { LinkIcon } from "@/components/icons";
 import { BaseText } from "@/components/reusable/text";
-import { LinkErrorDetails, UpdatedPlatformDetails } from "@/types/types";
+import {
+  UrlInputProps,
+} from "@/types/types";
 
-interface UrlInputProps {
-  id: string;
-  url: string;
-  errorValues?: LinkErrorDetails;
-  updateLinkValues: (
-    linkId: string,
-    valueName: "platform" | "url",
-    newValue: string | UpdatedPlatformDetails
-  ) => void;
-}
-
-const UrlInput = ({ url, id, errorValues, updateLinkValues }: UrlInputProps) => {
+const UrlInput = ({
+  url,
+  id,
+  errorValues,
+  updateLinkValues,
+}: UrlInputProps) => {
   //
   return (
     <div className="w-full mt-3">

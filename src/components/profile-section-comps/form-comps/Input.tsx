@@ -1,24 +1,7 @@
 "use client";
 import { BaseText } from "@/components/reusable/text";
+import { InputTypes } from "@/types/types";
 
-interface InputTypes {
-  id: "firstName" | "lastName" | "userEmail";
-  label: string;
-  handleLocalProfileUpdate: (
-    detailName: "firstName" | "lastName" | "userEmail",
-    detailValue: string
-  ) => void;
-  details: {
-    id: string;
-    userId: string;
-    userEmail: string;
-    firstName: string | null;
-    lastName: string | null;
-    profilePicture: string | null;
-  };
-  errorMsg: string[] | undefined;
-  userInfo?: { id: string | undefined; email: string | undefined };
-}
 
 const Input = ({
   id,

@@ -1,6 +1,10 @@
 import { useState, useEffect, useActionState } from "react";
 import { createLinks } from "@/db/queries/actions";
-import { LinksDetails, UpdatedPlatformDetails } from "@/types/types";
+import {
+  LinksDetails,
+  SortableContainerProps,
+  ActiveIdState
+} from "@/types/types";
 import { useToast } from "@/hooks/use-toast";
 import {
   closestCenter,
@@ -10,7 +14,6 @@ import {
   DragEndEvent,
   KeyboardSensor,
   PointerSensor,
-  UniqueIdentifier,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -20,35 +23,9 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import SortableLink from "./sortable/SortableLink";
 import SortableLinkContainer from "./sortable/links/SortableLinkContainer";
 import { useQueryClient } from "@tanstack/react-query";
-
-interface SortableContainerProps {
-  handleRemove: (id: string) => void;
-  updateLinkValues: (
-    linkId: string,
-    valueName: "platform" | "url",
-    newValue: string | UpdatedPlatformDetails
-  ) => void;
-  linksListData: LinksDetails[];
-  deletedList: LinksDetails[] | [];
-}
-
-export interface DnDTypes {
-  listeners?: SyntheticListenerMap;
-  style?: {
-    transform: string | undefined;
-    transition: string | undefined;
-  };
-  setNodeRef?: (node: HTMLElement | null) => void;
-  setActivatorNodeRef?: (node: HTMLElement | null) => void;
-}
-
-type ActiveIdState = UniqueIdentifier | null;
-
-// TRYING TO SORT OUT THE "SORT" FUNCTIONALITY!!!!!!
 
 const SortableContainer = ({
   linksListData,
@@ -58,7 +35,7 @@ const SortableContainer = ({
 }: SortableContainerProps) => {
   const queryClient = useQueryClient();
   const [activeId, setActiveId] = useState<ActiveIdState>(null);
-  const [activeItem, setActiveItem] = useState<LinksDetails | null>(null); // might change & might change to empty object
+  const [activeItem, setActiveItem] = useState<LinksDetails | null>(null);
   const [items, setItems] = useState<LinksDetails[]>(linksListData);
   const { toast } = useToast();
   const [state, linksAction] = useActionState(
