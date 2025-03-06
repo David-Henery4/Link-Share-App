@@ -166,6 +166,15 @@ export async function handleProfileDetailsUpdate(
   _prevState: unknown,
   formData: FormData
 ): Promise<undefined | UpdateProfileDetailsErrors> {
+
+  // Adding demo email to the form, if signed into demo account
+  const supabase = await createClient()
+  const {data: {user}} = await supabase.auth.getUser()
+  const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL
+  if (demoEmail && user?.email === demoEmail){
+    formData.append("userEmail", demoEmail)
+  }
+
   const results = profileDetailsSchema.safeParse(Object.fromEntries(formData));
 
   // Add basic validation ✅

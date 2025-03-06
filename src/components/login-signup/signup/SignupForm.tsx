@@ -1,21 +1,35 @@
-"use client"
+"use client";
 import Button from "@/components/reusable/Button";
 import { BaseText } from "@/components/reusable/text";
-import { PasswordIcon, EmailIcon } from "@/components/icons/login";
+import {
+  // PasswordIcon,
+  EmailIcon,
+  EyeClosedIcon,
+  EyeOpenIcon,
+} from "@/components/icons/login";
 import { signup } from "@/login/actions";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 
 // Maybe hide password word when typed, and give option to see it
 
 const SignupForm = () => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [state, signupAction] = useActionState(signup, {
-    errors: { email: undefined, password: undefined, neutral: undefined, confirmPassword: undefined },
+    errors: {
+      email: undefined,
+      password: undefined,
+      neutral: undefined,
+      confirmPassword: undefined,
+    },
   });
   //
   const emailError = state?.errors.email ?? null;
   const passwordError = state?.errors.password ?? null;
   const neutralError = state?.errors.neutral ?? null;
   const confirmPasswordError = state?.errors.confirmPassword ?? null;
+  //
+    const passwordVisibilityToggle = () =>
+      setIsPasswordVisible(!isPasswordVisible);
   //
   return (
     <form action={signupAction} className="w-full mt-10 grid gap-6">
@@ -58,13 +72,28 @@ const SignupForm = () => {
             passwordError ? "border-red" : "border-border"
           }`}
         >
-          <PasswordIcon />
+          {isPasswordVisible ? (
+            <span
+              className="hover:cursor-pointer"
+              onClick={passwordVisibilityToggle}
+            >
+              <EyeOpenIcon />
+            </span>
+          ) : (
+            <span
+              className="hover:cursor-pointer"
+              onClick={passwordVisibilityToggle}
+            >
+              <EyeClosedIcon />
+            </span>
+          )}
+          {/* <PasswordIcon /> */}
           <input
-            type="text"
+            type={isPasswordVisible ? "text" : "password"}
             name="password"
             id="password"
             className="w-full outline-none"
-            placeholder="At least .8 characters"
+            placeholder="At least 8 characters"
           />
           {passwordError && (
             <BaseText className="text-red" size="small">
@@ -76,7 +105,9 @@ const SignupForm = () => {
       <div>
         <label
           htmlFor="confirmPassword"
-          className={`text-xs ${confirmPasswordError ? "text-red" : "text-darkGrey"}`}
+          className={`text-xs ${
+            confirmPasswordError ? "text-red" : "text-darkGrey"
+          }`}
         >
           Confirm Password
         </label>
@@ -85,13 +116,27 @@ const SignupForm = () => {
             confirmPasswordError ? "border-red" : "border-border"
           }`}
         >
-          <PasswordIcon />
+          {isPasswordVisible ? (
+            <span
+              className="hover:cursor-pointer"
+              onClick={passwordVisibilityToggle}
+            >
+              <EyeOpenIcon />
+            </span>
+          ) : (
+            <span
+              className="hover:cursor-pointer"
+              onClick={passwordVisibilityToggle}
+            >
+              <EyeClosedIcon />
+            </span>
+          )}
           <input
-            type="text"
+            type={isPasswordVisible ? "text" : "password"}
             name="confirmPassword"
             id="confirmPassword"
             className="w-full outline-none"
-            placeholder="At least .8 characters"
+            placeholder="At least 8 characters"
           />
           {confirmPasswordError && (
             <BaseText className="text-red" size="small">

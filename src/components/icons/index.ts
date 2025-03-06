@@ -23,5 +23,5 @@ export {
   ChevIcon,
   LinkIcon,
   ArrowRightIcon,
-  AltLogoLarge
+  AltLogoLarge,
 }

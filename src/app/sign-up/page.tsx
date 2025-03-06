@@ -2,6 +2,7 @@ import { Heading, BaseText } from "@/components/reusable/text";
 import Link from "next/link";
 import LoginSignUpLogo from "@/components/login-signup/LoginSignUpLogo";
 import SignupForm from "@/components/login-signup/signup/SignupForm";
+import DemoSignIn from "@/components/demo-signin/DemoSignIn";
 
 const SignupPage = () => {
   // add route protection to middleware
@@ -25,6 +26,9 @@ const SignupPage = () => {
             Login
           </Link>
         </div>
+
+        <DemoSignIn/>
+
       </section>
     </main>
   );

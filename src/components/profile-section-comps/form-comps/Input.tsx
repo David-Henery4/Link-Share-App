@@ -17,6 +17,7 @@ interface InputTypes {
     profilePicture: string | null;
   };
   errorMsg: string[] | undefined;
+  userInfo?: { id: string | undefined; email: string | undefined };
 }
 
 const Input = ({
@@ -25,7 +26,11 @@ const Input = ({
   handleLocalProfileUpdate,
   details,
   errorMsg,
+  userInfo,
 }: InputTypes) => {
+  const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL
+  const demoUserId = process.env.NEXT_PUBLIC_DEMO_USER_ID;
+  const isDemoUser = userInfo?.email === demoEmail && userInfo?.id === demoUserId && id === "userEmail"
   //
   return (
     <div className="w-full smallTablet:gap-10 smallTablet:grid smallTablet:grid-cols-formColumns lgLaptop:gap-20">
@@ -35,9 +40,14 @@ const Input = ({
       >
         {label}*
       </label>
-      <div className={`w-full rounded-lg mt-1 px-4 py-3 overflow-hidden border bg-white flex justify-start items-center gap-2 ${errorMsg ? "border-red" : "border-border"}`}>
+      <div
+        className={`w-full rounded-lg mt-1 px-4 py-3 overflow-hidden border bg-white flex justify-start items-center gap-2 ${
+          errorMsg ? "border-red" : "border-border"
+        } ${isDemoUser && "opacity-50"}`}
+      >
         <input
           type="text"
+          disabled={isDemoUser}
           id={id}
           name={id}
           value={details[id] === null ? "" : details[id]}
@@ -46,7 +56,16 @@ const Input = ({
           }}
           className="w-full outline-none text-darkGrey text-base font-normal flex-1"
         />
-        {errorMsg && <BaseText size="small" className="text-red">{errorMsg[0]}</BaseText>}
+        {errorMsg && (
+          <BaseText size="small" className="text-red">
+            {errorMsg[0]}
+          </BaseText>
+        )}
+        {isDemoUser && (
+          <BaseText size="small" className="text-red">
+            Not available as demo user
+          </BaseText>
+        )}
       </div>
     </div>
   );

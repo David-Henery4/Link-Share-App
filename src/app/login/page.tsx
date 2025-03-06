@@ -2,6 +2,7 @@ import { Heading, BaseText } from "@/components/reusable/text";
 import Link from "next/link";
 import LoginSignUpLogo from "@/components/login-signup/LoginSignUpLogo";
 import LoginForm from "@/components/login-signup/login/LoginForm";
+import DemoSignIn from "@/components/demo-signin/DemoSignIn";
 
 // Need to change the padding for the form so it reaches the max of 476px
 
@@ -26,6 +27,9 @@ const LoginPage = () => {
             Create account
           </Link>
         </div>
+
+        <DemoSignIn/>
+        
       </section>
     </main>
   );

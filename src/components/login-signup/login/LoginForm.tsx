@@ -1,13 +1,19 @@
 "use client";
-import { PasswordIcon, EmailIcon } from "@/components/icons/login";
-import { useActionState } from "react";
+import {
+  // PasswordIcon,
+  EmailIcon,
+  EyeClosedIcon,
+  EyeOpenIcon,
+} from "@/components/icons/login";
+import { useActionState, useState } from "react";
 import { login } from "@/login/actions";
 import LoginSubmitBtn from "./LoginSubmitBtn";
 import { BaseText } from "@/components/reusable/text";
 
-// Maybe hide password word when typed, and give option to see it
+// NEED TO ADD PASSWORD ICONS TO SIGN-IN NOW AS WELL 
 
 const LoginForm = () => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [state, loginAction] = useActionState(login, {
     errors: { email: undefined, password: undefined, neutral: undefined },
   });
@@ -15,14 +21,15 @@ const LoginForm = () => {
   const emailError = state?.errors.email ?? null;
   const passwordError = state?.errors.password ?? null;
   //
+  const passwordVisibilityToggle = () =>
+    setIsPasswordVisible(!isPasswordVisible);
+  //
   return (
     <form action={loginAction} className="w-full mt-10 grid gap-6">
       <div>
         <label
           htmlFor="email"
-          className={`text-xs ${
-            emailError ? "text-red" : "text-darkGrey"
-          }`}
+          className={`text-xs ${emailError ? "text-red" : "text-darkGrey"}`}
         >
           Email Address
         </label>
@@ -49,9 +56,7 @@ const LoginForm = () => {
       <div>
         <label
           htmlFor="password"
-          className={`text-xs ${
-            passwordError ? "text-red" : "text-darkGrey"
-          }`}
+          className={`text-xs ${passwordError ? "text-red" : "text-darkGrey"}`}
         >
           Password
         </label>
@@ -60,9 +65,24 @@ const LoginForm = () => {
             passwordError ? "border-red" : "border-border"
           }`}
         >
-          <PasswordIcon />
+          {isPasswordVisible ? (
+            <span
+              className="hover:cursor-pointer"
+              onClick={passwordVisibilityToggle}
+            >
+              <EyeOpenIcon />
+            </span>
+          ) : (
+            <span
+              className="hover:cursor-pointer"
+              onClick={passwordVisibilityToggle}
+            >
+              <EyeClosedIcon />
+            </span>
+          )}
+          {/* <PasswordIcon /> */}
           <input
-            type="text"
+            type={isPasswordVisible ? "text" : "password"}
             name="password"
             id="password"
             className="w-full outline-none flex-1"

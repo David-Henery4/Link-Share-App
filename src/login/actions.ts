@@ -6,9 +6,26 @@ import { createProfileDetails } from "@/db/queries/queries";
 
 // const testUser = {
 //   id: "1",
-//   email: "contact@david.io",
-//   password: "12345678",
+//   email: "contact@demo.io",
+//   password: "1234D5E6M7O8",
+//   firstName: Tristan,
+//   lastName: Moore
 // };
+
+export const demoLogin = async () => {
+  const email = process.env.NEXT_PUBLIC_DEMO_EMAIL;
+  const password = process.env.DEMO_PASSWORD;
+  if (!email || !password) return;
+  //
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  //
+  if (error) {
+    console.log({ ...error });
+  }
+  //
+  redirect("/");
+};
 
 interface LoginReturnType {
   errors: {
@@ -33,11 +50,11 @@ const signupSchema = loginSchema
       .string()
       .min(8, { message: "Password must be at least 8 characters" })
       .trim(),
-  }).refine((data) => data.password === data.confirmPassword, {
+  })
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
-    path: ["confirmPassword"],});
-
-
+    path: ["confirmPassword"],
+  });
 
 export async function login(
   _prevState: unknown,

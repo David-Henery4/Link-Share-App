@@ -7,7 +7,11 @@ import { ProfileDetails } from "@/types/types";
 import { handleProfileDetailsUpdate } from "@/db/queries/actions";
 import { useToast } from "@/hooks/use-toast";
 
-const ProfileForm = () => {
+const ProfileForm = ({
+  userInfo
+}: {
+  userInfo: { id: string | undefined; email: string | undefined };
+}) => {
   const { toast } = useToast();
   const [profileState, profileAction] = useActionState(
     handleProfileDetailsUpdate,
@@ -72,7 +76,11 @@ const ProfileForm = () => {
   }, [profileState]); // eslint-disable-line react-hooks/exhaustive-deps
   //
   return (
-    <form id="profile-details-form" action={profileAction} className="w-full mt-10">
+    <form
+      id="profile-details-form"
+      action={profileAction}
+      className="w-full mt-10"
+    >
       <ProfileImageUpload savedImageUrl={data?.profilePicture} />
       <div className="w-full mt-6 grid gap-3 p-5 bg-lightGrey rounded-xl">
         {isSuccess && data && (
@@ -95,6 +103,7 @@ const ProfileForm = () => {
               id="userEmail"
               label="Email"
               details={data}
+              userInfo={userInfo}
               handleLocalProfileUpdate={handleLocalProfileUpdate}
               errorMsg={profileState?.errors.userEmail}
             />
