@@ -38,8 +38,9 @@ Users can:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [Frontend Mentor Solution page](https://www.frontendmentor.io/solutions/link-sharing-app-nextjs-typescript-supabase-drizzle-tailwindcss-8lYNr_V1M0)
+
+- Live Site URL: [https://link-share-app-beta.vercel.app/](https://link-share-app-beta.vercel.app/)
 
 ## My process
 
