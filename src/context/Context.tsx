@@ -43,15 +43,15 @@ const AppProvider = (props: PropsWithChildren) => {
     if (!file) return;
     //
     const img = new Image();
-    img.src = window.URL.createObjectURL(file[0]);
+    img.src = window.URL.createObjectURL(file[0]); // Formats file from the list of files into object URL
     img.onload = () => {
       if (img.naturalHeight > 1024 || img.naturalWidth > 1024) {
         setIsImageDimensionsInvalid(true);
-        window.URL.revokeObjectURL(img.src);
+        window.URL.revokeObjectURL(img.src); // removes Reference of Object URL from the browser.
         return;
       }
       setIsImageDimensionsInvalid(false);
-      window.URL.revokeObjectURL(img.src);
+      window.URL.revokeObjectURL(img.src); // removes Reference of Object URL from the browser.
       handleSetFileState(file);
     };
   };
